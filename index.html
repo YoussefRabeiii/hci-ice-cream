@@ -3,7 +3,10 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>complete Responsive Ice Cream Website Design</title>
+		<meta
+			name="description"
+			content="TopGlance — premium ice cream shop demo. Browse flavors, build a cart, and try a guided checkout (HCI / UX prototype)." />
+		<title>TopGlance Ice Cream — Shop demo</title>
 		<script>
 			(function () {
 				try {
@@ -11,7 +14,9 @@
 					var t = localStorage.getItem(k);
 					if (t === "dark" || t === "light") {
 						document.documentElement.setAttribute("data-theme", t);
-					} else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+					} else if (
+						window.matchMedia("(prefers-color-scheme: dark)").matches
+					) {
 						document.documentElement.setAttribute("data-theme", "dark");
 					}
 				} catch (e) {}
@@ -24,10 +29,13 @@
 		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
+		<a href="#main-content" class="skip-link">Skip to main content</a>
 		<!-- header section -->
 		<header>
-			<a href="#home"><img src="images/logo.png" alt="" width="200" /></a>
-			<nav class="navbar">
+			<a href="#home"
+				><img src="images/logo.png" alt="TopGlance Ice Cream" width="200"
+			/></a>
+			<nav class="navbar" id="siteNav" aria-label="Primary">
 				<ul>
 					<li><a href="#home">home</a></li>
 					<li><a href="#about">about</a></li>
@@ -47,8 +55,12 @@
 					aria-label="Switch to dark mode"
 					title="Theme">
 					<span class="theme-switch-track">
-						<i class="bx bx-sun theme-switch-icon theme-switch-icon--sun" aria-hidden="true"></i>
-						<i class="bx bx-moon theme-switch-icon theme-switch-icon--moon" aria-hidden="true"></i>
+						<i
+							class="bx bx-sun theme-switch-icon theme-switch-icon--sun"
+							aria-hidden="true"></i>
+						<i
+							class="bx bx-moon theme-switch-icon theme-switch-icon--moon"
+							aria-hidden="true"></i>
 						<span class="theme-switch-thumb"></span>
 					</span>
 				</button>
@@ -83,7 +95,12 @@
 						<p class="cart-empty" id="cartEmpty">Your cart is empty.</p>
 						<div class="cart-footer" id="cartFooter" hidden>
 							<p class="cart-total">Total: $<span id="cartTotal">0.00</span></p>
-							<button type="button" class="btn btn-checkout">Checkout</button>
+							<button
+								type="button"
+								class="btn btn-checkout"
+								id="cartCheckoutBtn">
+								Checkout
+							</button>
 						</div>
 					</div>
 				</div>
@@ -140,587 +157,683 @@
 					</div>
 				</div>
 			</div>
-			<div class="bx bx-menu"></div>
+			<button
+				type="button"
+				class="bx bx-menu nav-menu-toggle"
+				id="navMenuToggle"
+				aria-label="Open menu"
+				aria-expanded="false"
+				aria-controls="siteNav"></button>
 		</header>
 		<!-- header section -->
-		<!-- home section -->
-		<section class="home" id="home">
-			<div class="box-container">
-				<div class="box">
-					<span>Premium Ice Cream</span>
-					<h1>RELAX AND TAKE A MOMENT TO ENJOY YOURSELF</h1>
-					<p>
-						Lectus laoreet fames elit ipsum conubia mauris bibendum. Sem
-						volutpat natoque consequat ut est ex vehicula fusce eget.
-					</p>
-					<a href="" class="btn">where to buy</a>
-				</div>
-				<div class="box">
-					<img src="images/1.png" alt="" />
-				</div>
-			</div>
-		</section>
-		<!-- about section -->
-		<section class="about" id="about">
-			<div class="row">
-				<div class="image">
-					<img src="images/img_2.png" alt="" />
-				</div>
-				<div class="content">
-					<h3>The flavor you need, the consistency you want—ice cream!</h3>
-					<p>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
-						molestias corporis inventore soluta odio vero, dolor itaque illo
-						eos. Velit, sequi libero animi debitis provident odit perferendis
-						maxime repudiandae illo.
-					</p>
-					<p>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
-						omnis fugit corporis dignissimos saepe! Accusamus accusantium enim
-						laudantium voluptatem ab?
-					</p>
-					<a href="" class="btn">learn more</a>
-				</div>
-			</div>
-			<div class="box-container">
-				<div class="box">
-					<img src="images/group.png" alt="" />
-					<h1>Cafe & Shop</h1>
-					<p>
-						Lobortis sociosqu aliquet volutpat imperdiet eros tempor suspendisse
-						hac suscipit.
-					</p>
-					<a href="" class="btn">visit our shop</a>
-				</div>
-				<div class="box">
-					<img src="images/group0.png" alt="" />
-					<h1>Food Truck</h1>
-					<p>
-						Lobortis sociosqu aliquet volutpat imperdiet eros tempor suspendisse
-						hac suscipit.
-					</p>
-					<a href="" class="btn">visit spot</a>
-				</div>
-				<div class="box">
-					<img src="images/group1.png" alt="" />
-					<h1>Catering</h1>
-					<p>
-						Lobortis sociosqu aliquet volutpat imperdiet eros tempor suspendisse
-						hac suscipit.
-					</p>
-					<a href="" class="btn">order now</a>
-				</div>
-				<div class="box">
-					<img src="images/group2.png" alt="" />
-					<h1>Special Events</h1>
-					<p>
-						Lobortis sociosqu aliquet volutpat imperdiet eros tempor suspendisse
-						hac suscipit.
-					</p>
-					<a href="" class="btn">book now</a>
-				</div>
-			</div>
-		</section>
-		<div class="container">
-			<img src="images/shap.png" alt="" />
-			<div class="detail">
-				<i class="bx bxs-popsicle"></i>
-				<h1>
-					The perfect blend <br />
-					of summer and fun
-				</h1>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
-					Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
-				</p>
-				<a href="" class="btn">discover more</a>
-			</div>
-		</div>
-		<!-- shop section -->
-		<section class="shop" id="shop">
-			<h1 class="heading">
-				<i class="fas fa-quote-left"></i> our latest products
-				<i class="fas fa-quote-right"></i>
-			</h1>
-			<div class="box-container">
-				<div class="box">
-					<div class="detail">
-						<img src="images/product.png" alt="" />
-						<h3>ice creams</h3>
+		<main id="main-content">
+			<!-- home section -->
+			<section class="home" id="home">
+				<div class="box-container">
+					<div class="box">
+						<span>Premium Ice Cream</span>
+						<h1>Relax and enjoy a moment with TopGlance</h1>
 						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							Necessitatibus, nemo?
+							Lectus laoreet fames elit ipsum conubia mauris bibendum. Sem
+							volutpat natoque consequat ut est ex vehicula fusce eget.
 						</p>
-						<button
-							type="button"
-							class="btn add-to-cart"
-							data-id="shop-1"
-							data-name="Vanilla Swirl Cup"
-							data-price="8.99"
-							data-image="images/product.png">
-							add to cart
-						</button>
+						<a href="#shop" class="btn">Where to buy</a>
+					</div>
+					<div class="box">
+						<img src="images/1.png" alt="Artisan ice cream cup with toppings" />
 					</div>
 				</div>
-				<div class="box">
-					<div class="detail">
-						<img src="images/product0.png" alt="" />
-						<h3>ice creams</h3>
-						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							Necessitatibus, nemo?
-						</p>
-						<button
-							type="button"
-							class="btn add-to-cart"
-							data-id="shop-2"
-							data-name="Berry Fusion Tub"
-							data-price="9.49"
-							data-image="images/product0.png">
-							add to cart
-						</button>
+			</section>
+			<!-- about section -->
+			<section class="about" id="about">
+				<div class="row">
+					<div class="image">
+						<img
+							src="images/img_2.png"
+							alt="Fresh strawberry ice cream scoop" />
 					</div>
-				</div>
-				<div class="box">
-					<div class="detail">
-						<img src="images/product1.png" alt="" />
-						<h3>ice creams</h3>
-						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							Necessitatibus, nemo?
-						</p>
-						<button
-							type="button"
-							class="btn add-to-cart"
-							data-id="shop-3"
-							data-name="Mint Chip Delight"
-							data-price="8.49"
-							data-image="images/product1.png">
-							add to cart
-						</button>
-					</div>
-				</div>
-				<div class="box">
-					<div class="detail">
-						<img src="images/product4.png" alt="" />
-						<h3>ice creams</h3>
-						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							Necessitatibus, nemo?
-						</p>
-						<button
-							type="button"
-							class="btn add-to-cart"
-							data-id="shop-4"
-							data-name="Chocolate Dream"
-							data-price="9.99"
-							data-image="images/product4.png">
-							add to cart
-						</button>
-					</div>
-				</div>
-				<div class="box">
-					<div class="detail">
-						<img src="images/product2.png" alt="" />
-						<h3>ice creams</h3>
-						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							Necessitatibus, nemo?
-						</p>
-						<button
-							type="button"
-							class="btn add-to-cart"
-							data-id="shop-5"
-							data-name="Mango Tango"
-							data-price="8.99"
-							data-image="images/product2.png">
-							add to cart
-						</button>
-					</div>
-				</div>
-				<div class="box">
-					<div class="detail">
-						<img src="images/product3.png" alt="" />
-						<h3>ice creams</h3>
-						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							Necessitatibus, nemo?
-						</p>
-						<button
-							type="button"
-							class="btn add-to-cart"
-							data-id="shop-6"
-							data-name="Cookie Crunch"
-							data-price="10.49"
-							data-image="images/product3.png">
-							add to cart
-						</button>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- menu section -->
-		<section class="menu" id="menu">
-			<h1 class="heading">
-				Creamy, cold, and delicious: <br />
-				that’s our promise to you!
-			</h1>
-			<div class="box-container">
-				<div class="recipe">
-					<h1>Waffle Cone Recipe</h1>
-					<div class="detail">
-						<img src="images/recipe.png" alt="" />
-						<div>
-							<h3><span>mango</span><span>$5</span></h3>
-							<p>
-								Suscipit torquent class sollicitudin hendrerit dictumst tellus
-								turpis massa netus rhoncus in pharetra aenean
-							</p>
-						</div>
-					</div>
-					<div class="detail">
-						<img src="images/recipe0.png" alt="" />
-						<div>
-							<h3><span>Strawberry</span><span>$5</span></h3>
-							<p>
-								Suscipit torquent class sollicitudin hendrerit dictumst tellus
-								turpis massa netus rhoncus in pharetra aenean
-							</p>
-						</div>
-					</div>
-					<div class="detail">
-						<img src="images/recipe1.png" alt="" />
-						<div>
-							<h3><span>chocolate</span><span>$5</span></h3>
-							<p>
-								Suscipit torquent class sollicitudin hendrerit dictumst tellus
-								turpis massa netus rhoncus in pharetra aenean
-							</p>
-						</div>
-					</div>
-					<div class="detail">
-						<img src="images/recipe2.png" alt="" />
-						<div>
-							<h3><span>mix fruit</span><span>$5</span></h3>
-							<p>
-								Suscipit torquent class sollicitudin hendrerit dictumst tellus
-								turpis massa netus rhoncus in pharetra aenean
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="img">
-					<img src="images/img_6.png" alt="" />
-				</div>
-			</div>
-			<div class="box-container">
-				<div class="img">
-					<img src="images/log.png" alt="" />
-				</div>
-				<div class="recipe">
-					<h1>Classic Recipe</h1>
-					<div class="detail">
-						<img src="images/recipe.png" alt="" />
-						<div>
-							<h3><span>mango</span><span>$5</span></h3>
-							<p>
-								Suscipit torquent class sollicitudin hendrerit dictumst tellus
-								turpis massa netus rhoncus in pharetra aenean
-							</p>
-						</div>
-					</div>
-					<div class="detail">
-						<img src="images/recipe0.png" alt="" />
-						<div>
-							<h3><span>Strawberry</span><span>$5</span></h3>
-							<p>
-								Suscipit torquent class sollicitudin hendrerit dictumst tellus
-								turpis massa netus rhoncus in pharetra aenean
-							</p>
-						</div>
-					</div>
-					<div class="detail">
-						<img src="images/recipe1.png" alt="" />
-						<div>
-							<h3><span>chocolate</span><span>$5</span></h3>
-							<p>
-								Suscipit torquent class sollicitudin hendrerit dictumst tellus
-								turpis massa netus rhoncus in pharetra aenean
-							</p>
-						</div>
-					</div>
-					<div class="detail">
-						<img src="images/recipe2.png" alt="" />
-						<div>
-							<h3><span>mix fruit</span><span>$5</span></h3>
-							<p>
-								Suscipit torquent class sollicitudin hendrerit dictumst tellus
-								turpis massa netus rhoncus in pharetra aenean
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- shop -->
-		<section class="features">
-			<h1>Featured Product</h1>
-			<div class="box-container">
-				<div class="box one">
-					<img src="images/img_6.png" alt="" />
-					<h2>Strawberry Walfe Cone Ice Cream</h2>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit
-						tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
-					</p>
-					<button
-						type="button"
-						class="btn add-to-cart"
-						data-id="feat-1"
-						data-name="Strawberry Waffle Cone"
-						data-price="11.99"
-						data-image="images/img_6.png">
-						add to cart
-					</button>
-				</div>
-				<div class="box two">
-					<img src="images/img_2.png" alt="" />
-					<h2>Strawberry Walfe Cone Ice Cream</h2>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit
-						tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
-					</p>
-					<button
-						type="button"
-						class="btn add-to-cart"
-						data-id="feat-2"
-						data-name="Double Scoop Special"
-						data-price="13.49"
-						data-image="images/img_2.png">
-						add to cart
-					</button>
-				</div>
-				<div class="box three">
-					<img src="images/img_5.png" alt="" />
-					<h2>Strawberry Walfe Cone Ice Cream</h2>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit
-						tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
-					</p>
-					<button
-						type="button"
-						class="btn add-to-cart"
-						data-id="feat-3"
-						data-name="Sundae Supreme"
-						data-price="10.99"
-						data-image="images/img_5.png">
-						add to cart
-					</button>
-				</div>
-			</div>
-		</section>
-		<!-- contact section -->
-		<section class="faq" id="faq">
-			<h1 class="heading">Frequently Asked Questions</h1>
-			<div class="box-container">
-				<div class="img-box">
-					<div class="overlay"></div>
-					<img src="images/1.jpg" alt="" />
-					<div class="detail">
-						<i class="bx bx-headphone"></i><br />
-						<span>NEED MORE HELP?</span>
-						<h2>888-4004-234</h2>
-						<a href="" class="btn">call us</a>
-					</div>
-				</div>
-				<div class="accordion">
-					<div class="contentBox">
-						<div class="label">How can I book an appointment?</div>
-						<div class="content">
-							<p>
-								To book an appointment at any of our dental clinics, you can
-								fill the form available at the top, and one of our
-								representatives will get in touch with you. Alternatively, you
-								can also give us a call on 08800559112.
-							</p>
-						</div>
-					</div>
-					<div class="contentBox">
-						<div class="label">What are your dental clinic timings?</div>
-						<div class="content">
-							<p>
-								Clove Dental clinics remain open from 10 AM to 7 PM every day.
-								However, in the case of unforeseen situations, the timing may
-								differ on that particular day. Our Clinics are open on weekends.
-							</p>
-						</div>
-					</div>
-					<div class="contentBox">
-						<div class="label">
-							What modes of payment are acceptable at Clove Dental Clinics?
-						</div>
-						<div class="content">
-							<p>
-								We accept payments through Cash/Credit Card/ Debit Card/ Paytm/
-								PhonePe or via /Airtel Money or any other UPI Payment methods.
-							</p>
-						</div>
-					</div>
-					<div class="contentBox">
-						<div class="label">How frequently should I visit a dentist?</div>
-						<div class="content">
-							<p>
-								The frequency of a visit to a dentist depends on the condition
-								of your oral health. It is advised that people must visit a
-								dentist at least once in six months for regular dental
-								check-ups. However, people with dental problems must visit once
-								in three months or as directed by the dentists.
-							</p>
-						</div>
-					</div>
-					<div class="contentBox">
-						<div class="label">
-							What are the safety measures adopted by Clove?
-						</div>
-						<div class="content">
-							<p>
-								Clove Dental has adopted world-class measures to ensure the
-								safety of patients. Our trademarked Stringent 4 step
-								sterilisation process is a testimony to our commitment to high
-								standards of safety & sterilisation. We have enhanced our safety
-								protocols under WHO Guidelines in response to the COVID crisis
-								and are now operating with10X safety protocols. Each Clove
-								Clinic is now deployed with new state of the art equipment-
-								Aerosol Suction & Decontamination Unit (ASDU) & Constant
-								Fumigation Device (CFD) to effectively manage any aerosols or
-								contaminants in the clinic premises. We follow a zero-compromise
-								policy when it comes to safety & hygiene. This ensures a
-								completely sterile & hygienic environment.
-							</p>
-						</div>
-					</div>
-					<div class="contentBox">
-						<div class="label">
-							Is it possible to have a video/ tele consult before I visit the
-							clinic?
-						</div>
-						<div class="content">
-							<p>
-								Yes, you can consult a dentist via a video or a phone call
-								before visiting the clinic. For your convenience & safety, we
-								have decided to make our initial consultation easier for you to
-								access. At Clove Dental, our dentists are now available on
-								video/tele calls for giving professional opinion and advice.
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- post section -->
-		<section class="post" id="blog">
-			<h1 class="heading">
-				<i class="fas fa-quote-left"></i> our latest post
-				<i class="fas fa-quote-right"></i>
-			</h1>
-			<div class="box-container">
-				<div class="box">
-					<img src="images/blog.jpg" alt="" />
 					<div class="content">
-						<span><i class="bx bxs-calendar-alt"></i>jan 2, 2023</span>
-						<h3>post title goes here</h3>
+						<h2>The flavor you need, the consistency you want—ice cream!</h2>
 						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo
-							veritatis nostrum voluptates cumque deserunt incidunt, minus
-							mollitia rem molestiae ad.
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
+							molestias corporis inventore soluta odio vero, dolor itaque illo
+							eos. Velit, sequi libero animi debitis provident odit perferendis
+							maxime repudiandae illo.
 						</p>
-						<a href="#" class="btn">read more</a>
+						<p>
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
+							omnis fugit corporis dignissimos saepe! Accusamus accusantium enim
+							laudantium voluptatem ab?
+						</p>
+						<a href="" class="btn">learn more</a>
 					</div>
 				</div>
-				<div class="box">
-					<img src="images/blog0.jpg" alt="" />
-					<div class="content">
-						<span><i class="bx bxs-calendar-alt"></i>jan 2, 2023</span>
-						<h3>post title goes here</h3>
+				<div class="box-container">
+					<div class="box">
+						<img src="images/group.png" alt="" />
+						<h3>Cafe &amp; shop</h3>
 						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo
-							veritatis nostrum voluptates cumque deserunt incidunt, minus
-							mollitia rem molestiae ad.
+							Lobortis sociosqu aliquet volutpat imperdiet eros tempor
+							suspendisse hac suscipit.
 						</p>
-						<a href="#" class="btn">read more</a>
+						<a href="" class="btn">visit our shop</a>
+					</div>
+					<div class="box">
+						<img src="images/group0.png" alt="" />
+						<h3>Food truck</h3>
+						<p>
+							Lobortis sociosqu aliquet volutpat imperdiet eros tempor
+							suspendisse hac suscipit.
+						</p>
+						<a href="" class="btn">visit spot</a>
+					</div>
+					<div class="box">
+						<img src="images/group1.png" alt="" />
+						<h3>Catering</h3>
+						<p>
+							Lobortis sociosqu aliquet volutpat imperdiet eros tempor
+							suspendisse hac suscipit.
+						</p>
+						<a href="" class="btn">order now</a>
+					</div>
+					<div class="box">
+						<img src="images/group2.png" alt="" />
+						<h3>Special events</h3>
+						<p>
+							Lobortis sociosqu aliquet volutpat imperdiet eros tempor
+							suspendisse hac suscipit.
+						</p>
+						<a href="" class="btn">book now</a>
 					</div>
 				</div>
-				<div class="box">
-					<img src="images/blog1.jpg" alt="" />
-					<div class="content">
-						<span><i class="bx bxs-calendar-alt"></i>jan 2, 2023</span>
-						<h3>post title goes here</h3>
-						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo
-							veritatis nostrum voluptates cumque deserunt incidunt, minus
-							mollitia rem molestiae ad.
-						</p>
-						<a href="#" class="btn">read more</a>
-					</div>
+			</section>
+			<div class="container">
+				<img src="images/shap.png" alt="" role="presentation" />
+				<div class="detail">
+					<i class="bx bxs-popsicle" aria-hidden="true"></i>
+					<h2>
+						The perfect blend <br />
+						of summer and fun
+					</h2>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
+						Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
+					</p>
+					<a href="" class="btn">discover more</a>
 				</div>
 			</div>
-		</section>
-		<!-- client  -->
-		<section class="client">
-			<div class="box-container">
-				<img src="images/client.png" alt="" />
-				<img src="images/client0.png" alt="" />
-				<img src="images/client1.png" alt="" />
-				<img src="images/client2.png" alt="" />
-				<img src="images/client3.png" alt="" />
-				<img src="images/client3.png" alt="" />
-			</div>
-		</section>
+			<!-- shop section -->
+			<section class="shop" id="shop">
+				<h2 class="heading">
+					<i class="bx bxs-quote-left-alt" aria-hidden="true"></i> Our latest
+					products
+					<i class="bx bxs-quote-right-alt" aria-hidden="true"></i>
+				</h2>
+				<div class="box-container">
+					<div class="box">
+						<div class="detail">
+							<img src="images/product.png" alt="Vanilla Swirl Cup ice cream" />
+							<h3>Vanilla Swirl Cup</h3>
+							<p>
+								Small-batch vanilla with a silky swirl—perfect for a quick
+								treat.
+							</p>
+							<button
+								type="button"
+								class="btn add-to-cart"
+								data-id="shop-1"
+								data-name="Vanilla Swirl Cup"
+								data-price="8.99"
+								data-image="images/product.png">
+								add to cart
+							</button>
+						</div>
+					</div>
+					<div class="box">
+						<div class="detail">
+							<img src="images/product0.png" alt="Berry Fusion tub" />
+							<h3>Berry Fusion Tub</h3>
+							<p>
+								Mixed berries folded into rich cream—tangy, sweet, and
+								scoopable.
+							</p>
+							<button
+								type="button"
+								class="btn add-to-cart"
+								data-id="shop-2"
+								data-name="Berry Fusion Tub"
+								data-price="9.49"
+								data-image="images/product0.png">
+								add to cart
+							</button>
+						</div>
+					</div>
+					<div class="box">
+						<div class="detail">
+							<img src="images/product1.png" alt="Mint Chip Delight cup" />
+							<h3>Mint Chip Delight</h3>
+							<p>Cool mint with crisp dark chocolate chips in every bite.</p>
+							<button
+								type="button"
+								class="btn add-to-cart"
+								data-id="shop-3"
+								data-name="Mint Chip Delight"
+								data-price="8.49"
+								data-image="images/product1.png">
+								add to cart
+							</button>
+						</div>
+					</div>
+					<div class="box">
+						<div class="detail">
+							<img src="images/product4.png" alt="Chocolate Dream dessert" />
+							<h3>Chocolate Dream</h3>
+							<p>
+								Deep cocoa base with a fudge ripple—made for chocolate lovers.
+							</p>
+							<button
+								type="button"
+								class="btn add-to-cart"
+								data-id="shop-4"
+								data-name="Chocolate Dream"
+								data-price="9.99"
+								data-image="images/product4.png">
+								add to cart
+							</button>
+						</div>
+					</div>
+					<div class="box">
+						<div class="detail">
+							<img src="images/product2.png" alt="Mango Tango scoop" />
+							<h3>Mango Tango</h3>
+							<p>Ripe mango flavor with a tropical finish—summer in a scoop.</p>
+							<button
+								type="button"
+								class="btn add-to-cart"
+								data-id="shop-5"
+								data-name="Mango Tango"
+								data-price="8.99"
+								data-image="images/product2.png">
+								add to cart
+							</button>
+						</div>
+					</div>
+					<div class="box">
+						<div class="detail">
+							<img src="images/product3.png" alt="Cookie Crunch tub" />
+							<h3>Cookie Crunch</h3>
+							<p>
+								Vanilla cream loaded with cookie pieces—extra crunch, zero fuss.
+							</p>
+							<button
+								type="button"
+								class="btn add-to-cart"
+								data-id="shop-6"
+								data-name="Cookie Crunch"
+								data-price="10.49"
+								data-image="images/product3.png">
+								add to cart
+							</button>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- menu section -->
+			<section class="menu" id="menu">
+				<h2 class="heading">
+					Creamy, cold, and delicious: <br />
+					that’s our promise to you!
+				</h2>
+				<div class="box-container">
+					<div class="recipe">
+						<h3>Waffle cone recipe</h3>
+						<div class="detail">
+							<img src="images/recipe.png" alt="" />
+							<div>
+								<h3><span>mango</span><span>$5</span></h3>
+								<p>
+									Suscipit torquent class sollicitudin hendrerit dictumst tellus
+									turpis massa netus rhoncus in pharetra aenean
+								</p>
+							</div>
+						</div>
+						<div class="detail">
+							<img src="images/recipe0.png" alt="" />
+							<div>
+								<h3><span>Strawberry</span><span>$5</span></h3>
+								<p>
+									Suscipit torquent class sollicitudin hendrerit dictumst tellus
+									turpis massa netus rhoncus in pharetra aenean
+								</p>
+							</div>
+						</div>
+						<div class="detail">
+							<img src="images/recipe1.png" alt="" />
+							<div>
+								<h3><span>chocolate</span><span>$5</span></h3>
+								<p>
+									Suscipit torquent class sollicitudin hendrerit dictumst tellus
+									turpis massa netus rhoncus in pharetra aenean
+								</p>
+							</div>
+						</div>
+						<div class="detail">
+							<img src="images/recipe2.png" alt="" />
+							<div>
+								<h3><span>mix fruit</span><span>$5</span></h3>
+								<p>
+									Suscipit torquent class sollicitudin hendrerit dictumst tellus
+									turpis massa netus rhoncus in pharetra aenean
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="img">
+						<img
+							src="images/img_6.png"
+							alt="Assorted waffle cones with ice cream" />
+					</div>
+				</div>
+				<div class="box-container">
+					<div class="img">
+						<img src="images/log.png" alt="TopGlance cone logo mark" />
+					</div>
+					<div class="recipe">
+						<h3>Classic recipe</h3>
+						<div class="detail">
+							<img src="images/recipe.png" alt="" />
+							<div>
+								<h3><span>mango</span><span>$5</span></h3>
+								<p>
+									Suscipit torquent class sollicitudin hendrerit dictumst tellus
+									turpis massa netus rhoncus in pharetra aenean
+								</p>
+							</div>
+						</div>
+						<div class="detail">
+							<img src="images/recipe0.png" alt="" />
+							<div>
+								<h3><span>Strawberry</span><span>$5</span></h3>
+								<p>
+									Suscipit torquent class sollicitudin hendrerit dictumst tellus
+									turpis massa netus rhoncus in pharetra aenean
+								</p>
+							</div>
+						</div>
+						<div class="detail">
+							<img src="images/recipe1.png" alt="" />
+							<div>
+								<h3><span>chocolate</span><span>$5</span></h3>
+								<p>
+									Suscipit torquent class sollicitudin hendrerit dictumst tellus
+									turpis massa netus rhoncus in pharetra aenean
+								</p>
+							</div>
+						</div>
+						<div class="detail">
+							<img src="images/recipe2.png" alt="" />
+							<div>
+								<h3><span>mix fruit</span><span>$5</span></h3>
+								<p>
+									Suscipit torquent class sollicitudin hendrerit dictumst tellus
+									turpis massa netus rhoncus in pharetra aenean
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- shop -->
+			<section class="features">
+				<h2>Featured products</h2>
+				<div class="box-container">
+					<div class="box one">
+						<img
+							src="images/img_6.png"
+							alt="Strawberry waffle cone with toppings" />
+						<h3>Strawberry waffle cone</h3>
+						<p>
+							Fresh strawberry scoops in a crisp waffle cone—our bestseller for
+							sunny days.
+						</p>
+						<button
+							type="button"
+							class="btn add-to-cart"
+							data-id="feat-1"
+							data-name="Strawberry Waffle Cone"
+							data-price="11.99"
+							data-image="images/img_6.png">
+							add to cart
+						</button>
+					</div>
+					<div class="box two">
+						<img
+							src="images/img_2.png"
+							alt="Double scoop strawberry ice cream" />
+						<h3>Double scoop special</h3>
+						<p>Two generous scoops, any pairing—built for sharing (or not).</p>
+						<button
+							type="button"
+							class="btn add-to-cart"
+							data-id="feat-2"
+							data-name="Double Scoop Special"
+							data-price="13.49"
+							data-image="images/img_2.png">
+							add to cart
+						</button>
+					</div>
+					<div class="box three">
+						<img src="images/img_5.png" alt="Sundae supreme dessert glass" />
+						<h3>Sundae supreme</h3>
+						<p>
+							Layers of sauce, whipped cream, and toppings in one glorious
+							glass.
+						</p>
+						<button
+							type="button"
+							class="btn add-to-cart"
+							data-id="feat-3"
+							data-name="Sundae Supreme"
+							data-price="10.99"
+							data-image="images/img_5.png">
+							add to cart
+						</button>
+					</div>
+				</div>
+			</section>
+			<!-- contact section -->
+			<section class="faq" id="faq">
+				<h2 class="heading">Frequently asked questions</h2>
+				<div class="box-container">
+					<div class="img-box">
+						<div class="overlay"></div>
+						<img src="images/1.jpg" alt="" role="presentation" />
+						<div class="detail">
+							<i class="bx bx-headphone" aria-hidden="true"></i><br />
+							<span>Need more help?</span>
+							<h2><a href="tel:+18884004234">888-4004-234</a></h2>
+							<a href="tel:+18884004234" class="btn">Call us</a>
+						</div>
+					</div>
+					<div class="accordion">
+						<div class="contentBox">
+							<button
+								type="button"
+								class="label accordion-trigger"
+								id="faq-trigger-1"
+								aria-expanded="false"
+								aria-controls="faq-panel-1">
+								How do I place an order for delivery?
+							</button>
+							<div
+								class="content accordion-panel"
+								id="faq-panel-1"
+								role="region"
+								aria-labelledby="faq-trigger-1"
+								aria-hidden="true">
+								<p>
+									Add items from <strong>Shop</strong>, open your cart, and use
+									<strong>Checkout</strong>. This demo collects shipping details
+									only—no real payment is processed.
+								</p>
+							</div>
+						</div>
+						<div class="contentBox">
+							<button
+								type="button"
+								class="label accordion-trigger"
+								id="faq-trigger-2"
+								aria-expanded="false"
+								aria-controls="faq-panel-2">
+								What are your shop hours?
+							</button>
+							<div
+								class="content accordion-panel"
+								id="faq-panel-2"
+								role="region"
+								aria-labelledby="faq-trigger-2"
+								aria-hidden="true">
+								<p>
+									Our cafes are open <strong>10:00–21:00</strong> daily. Food
+									truck times vary by location—check the spot card before you
+									head out.
+								</p>
+							</div>
+						</div>
+						<div class="contentBox">
+							<button
+								type="button"
+								class="label accordion-trigger"
+								id="faq-trigger-3"
+								aria-expanded="false"
+								aria-controls="faq-panel-3">
+								Which payment methods do you accept?
+							</button>
+							<div
+								class="content accordion-panel"
+								id="faq-panel-3"
+								role="region"
+								aria-labelledby="faq-trigger-3"
+								aria-hidden="true">
+								<p>
+									In stores we accept cash and major cards. In this prototype,
+									checkout supports a <strong>saved demo card</strong> or
+									entering test card details—nothing is charged.
+								</p>
+							</div>
+						</div>
+						<div class="contentBox">
+							<button
+								type="button"
+								class="label accordion-trigger"
+								id="faq-trigger-4"
+								aria-expanded="false"
+								aria-controls="faq-panel-4">
+								Do you offer dairy-free or vegan options?
+							</button>
+							<div
+								class="content accordion-panel"
+								id="faq-panel-4"
+								role="region"
+								aria-labelledby="faq-trigger-4"
+								aria-hidden="true">
+								<p>
+									Yes—ask at the counter or note dietary needs when you book
+									<strong>catering</strong>. We separate scoops and utensils for
+									allergen safety when you tell us in advance.
+								</p>
+							</div>
+						</div>
+						<div class="contentBox">
+							<button
+								type="button"
+								class="label accordion-trigger"
+								id="faq-trigger-5"
+								aria-expanded="false"
+								aria-controls="faq-panel-5">
+								How do you keep products cold during delivery?
+							</button>
+							<div
+								class="content accordion-panel"
+								id="faq-panel-5"
+								role="region"
+								aria-labelledby="faq-trigger-5"
+								aria-hidden="true">
+								<p>
+									We pack orders in insulated liners with ice packs and aim for
+									the shortest route. For best texture, transfer pints to your
+									freezer within <strong>30 minutes</strong> of arrival when
+									possible.
+								</p>
+							</div>
+						</div>
+						<div class="contentBox">
+							<button
+								type="button"
+								class="label accordion-trigger"
+								id="faq-trigger-6"
+								aria-expanded="false"
+								aria-controls="faq-panel-6">
+								Can I change my cart after I start checkout?
+							</button>
+							<div
+								class="content accordion-panel"
+								id="faq-panel-6"
+								role="region"
+								aria-labelledby="faq-trigger-6"
+								aria-hidden="true">
+								<p>
+									Close checkout with <kbd>Esc</kbd> or the close control,
+									adjust quantities in the cart panel, then open checkout again.
+									Your shipping fields stay on this page until you refresh.
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- post section -->
+			<section class="post" id="blog">
+				<h2 class="heading">
+					<i class="bx bxs-quote-left-alt" aria-hidden="true"></i> Our latest
+					posts
+					<i class="bx bxs-quote-right-alt" aria-hidden="true"></i>
+				</h2>
+				<div class="box-container">
+					<div class="box">
+						<img
+							src="images/blog.jpg"
+							alt="Colorful ice cream scoops in a waffle bowl" />
+						<div class="content">
+							<span
+								><i class="bx bxs-calendar-alt" aria-hidden="true"></i> Jan 12,
+								2026</span
+							>
+							<h3>Behind the swirl: how we balance sweetness</h3>
+							<p>
+								Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo
+								veritatis nostrum voluptates cumque deserunt incidunt, minus
+								mollitia rem molestiae ad.
+							</p>
+							<a href="#" class="btn">read more</a>
+						</div>
+					</div>
+					<div class="box">
+						<img
+							src="images/blog0.jpg"
+							alt="Kitchen prep for small-batch ice cream" />
+						<div class="content">
+							<span
+								><i class="bx bxs-calendar-alt" aria-hidden="true"></i> Jan 5,
+								2026</span
+							>
+							<h3>Small batches, big flavor</h3>
+							<p>
+								Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo
+								veritatis nostrum voluptates cumque deserunt incidunt, minus
+								mollitia rem molestiae ad.
+							</p>
+							<a href="#" class="btn">read more</a>
+						</div>
+					</div>
+					<div class="box">
+						<img
+							src="images/blog1.jpg"
+							alt="Summer outdoor seating at TopGlance cafe" />
+						<div class="content">
+							<span
+								><i class="bx bxs-calendar-alt" aria-hidden="true"></i> Dec 18,
+								2025</span
+							>
+							<h3>Pop-ups &amp; trucks this season</h3>
+							<p>
+								Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo
+								veritatis nostrum voluptates cumque deserunt incidunt, minus
+								mollitia rem molestiae ad.
+							</p>
+							<a href="#" class="btn">read more</a>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- client  -->
+			<section class="client" aria-label="Partner brands">
+				<div class="box-container">
+					<img src="images/client.png" alt="" role="presentation" />
+					<img src="images/client0.png" alt="" role="presentation" />
+					<img src="images/client1.png" alt="" role="presentation" />
+					<img src="images/client2.png" alt="" role="presentation" />
+					<img src="images/client3.png" alt="" role="presentation" />
+					<img src="images/client3.png" alt="" role="presentation" />
+				</div>
+			</section>
+		</main>
 		<!-- footer section -->
 		<footer>
 			<div class="content">
 				<div class="box">
-					<img src="images/logo.png" />
+					<img src="images/logo.png" alt="TopGlance Ice Cream" />
 					<p>
-						We’re always in search for talented and motivated people. Don’t be
-						shy introduce yourself! <br />We’re always in search for talented
-						and motivated people.
+						TopGlance is a student HCI demo: browse flavors, try the cart, and
+						walk through a safe mock checkout. No real charges are made.
 					</p>
 
-					<a href="contact.php" class="btn">contact with us</a>
+					<a href="#shop" class="btn">Shop flavors</a>
 				</div>
 				<div class="box">
-					<h3>useful links</h3>
-					<a href="">online coaching</a>
-					<a href="">marketplace</a>
-					<a href="">kindergarten</a>
-					<a href="">university</a>
-					<a href="">GYM coaching</a>
+					<h3>Useful links</h3>
+					<a href="#home">Home</a>
+					<a href="#about">About</a>
+					<a href="#shop">Shop</a>
+					<a href="#menu">Menu</a>
+					<a href="#faq">FAQ</a>
 				</div>
 				<div class="box">
-					<h3>our company</h3>
-					<a href="contact.php">contact us</a>
-					<a href="">become teacher</a>
-					<a href="">blog</a>
-					<a href="">instructor</a>
-					<a href="">events</a>
+					<h3>Our company</h3>
+					<a href="#blog">Blog</a>
+					<a href="#faq">Support</a>
+					<a href="#about">Catering</a>
+					<a href="#shop">Wholesale</a>
+					<a href="#menu">Nutrition</a>
 				</div>
 				<div class="box">
-					<h3>get contact</h3>
-					<p>Phone: (406) 555-0120</p>
-					<p>E-mail: rainbow@example.com</p>
-					<p>Location: North America, USA</p>
+					<h3>Contact</h3>
+					<p>Phone: <a href="tel:+14065550120">(406) 555-0120</a></p>
+					<p>
+						E-mail: <a href="mailto:hello@topglance.ice">hello@topglance.ice</a>
+					</p>
+					<p>Location: Portland, OR (demo)</p>
 					<div class="icons">
-						<i class="bx bxl-facebook"></i>
-						<i class="bx bxl-twitter"></i>
-						<i class="bx bxl-instagram"></i>
-						<i class="bx bxl-linkedin"></i>
+						<a
+							href="https://facebook.com"
+							rel="noopener noreferrer"
+							aria-label="Facebook (demo link)"
+							><i class="bx bxl-facebook" aria-hidden="true"></i
+						></a>
+						<a
+							href="https://twitter.com"
+							rel="noopener noreferrer"
+							aria-label="Twitter / X (demo link)"
+							><i class="bx bxl-twitter" aria-hidden="true"></i
+						></a>
+						<a
+							href="https://instagram.com"
+							rel="noopener noreferrer"
+							aria-label="Instagram (demo link)"
+							><i class="bx bxl-instagram" aria-hidden="true"></i
+						></a>
+						<a
+							href="https://linkedin.com"
+							rel="noopener noreferrer"
+							aria-label="LinkedIn (demo link)"
+							><i class="bx bxl-linkedin" aria-hidden="true"></i
+						></a>
 					</div>
 				</div>
 			</div>
 			<div class="bottom">
-				<p>Copyright © 2023 code with selena. All Rights Reserved</p>
-				<a href="admin/register.php">become a seller</a>
+				<p>© 2026 TopGlance — HCI course demo. All rights reserved.</p>
+				<a href="#main-content">Back to top</a>
 			</div>
 		</footer>
 
@@ -735,168 +848,191 @@
 			<div class="checkout-dialog">
 				<div class="checkout-dialog-surface">
 					<div class="checkout-head">
-					<h2 id="checkoutDialogTitle">Checkout</h2>
-					<button
-						type="button"
-						class="panel-close"
-						id="checkoutClose"
-						aria-label="Close checkout">
-						&times;
-					</button>
-				</div>
-				<div class="checkout-progress" id="checkoutProgress">
-					<div class="checkout-progress-step is-active" data-ind="1">
-						<span class="checkout-step-num">1</span>
-						<span class="checkout-step-label">Shipping</span>
+						<h2 id="checkoutDialogTitle">Checkout</h2>
+						<button
+							type="button"
+							class="panel-close"
+							id="checkoutClose"
+							aria-label="Close checkout">
+							&times;
+						</button>
 					</div>
-					<div class="checkout-progress-step" data-ind="2">
-						<span class="checkout-step-num">2</span>
-						<span class="checkout-step-label">Payment</span>
-					</div>
-					<div class="checkout-progress-step" data-ind="3">
-						<span class="checkout-step-num">3</span>
-						<span class="checkout-step-label">Review</span>
-					</div>
-				</div>
-				<div class="checkout-body">
-					<div class="checkout-pane" id="checkoutPane1" data-pane="1">
-						<p class="checkout-intro">Where should we send your order?</p>
-						<label class="checkout-field">
-							<span>Full name</span>
-							<input
-								type="text"
-								id="coFullName"
-								autocomplete="name"
-								placeholder="e.g. Jane Cooper"
-								required />
-						</label>
-						<label class="checkout-field">
-							<span>Email</span>
-							<input
-								type="email"
-								id="coEmail"
-								autocomplete="email"
-								placeholder="jane@example.com"
-								required />
-						</label>
-						<label class="checkout-field">
-							<span>Phone</span>
-							<input
-								type="tel"
-								id="coPhone"
-								autocomplete="tel"
-								placeholder="(406) 555-0120"
-								required />
-						</label>
-						<label class="checkout-field">
-							<span>Street address</span>
-							<input
-								type="text"
-								id="coAddress"
-								autocomplete="street-address"
-								placeholder="123 Sweet Street, Apt 4"
-								required />
-						</label>
-						<div class="checkout-field-row">
-							<label class="checkout-field">
-								<span>City</span>
-								<input
-									type="text"
-									id="coCity"
-									autocomplete="address-level2"
-									placeholder="Portland"
-									required />
-							</label>
-							<label class="checkout-field">
-								<span>ZIP</span>
-								<input
-									type="text"
-									id="coZip"
-									inputmode="numeric"
-									autocomplete="postal-code"
-									placeholder="97201"
-									required />
-							</label>
+					<div class="checkout-progress" id="checkoutProgress">
+						<div class="checkout-progress-step is-active" data-ind="1">
+							<span class="checkout-step-num">1</span>
+							<span class="checkout-step-label">Shipping</span>
+						</div>
+						<div class="checkout-progress-step" data-ind="2">
+							<span class="checkout-step-num">2</span>
+							<span class="checkout-step-label">Payment</span>
+						</div>
+						<div class="checkout-progress-step" data-ind="3">
+							<span class="checkout-step-num">3</span>
+							<span class="checkout-step-label">Review</span>
 						</div>
 					</div>
-					<div class="checkout-pane" id="checkoutPane2" data-pane="2" hidden>
-						<p class="checkout-intro">Demo payment — nothing is charged.</p>
-						<fieldset class="checkout-pay-choice">
-							<legend class="visually-hidden">Payment method</legend>
-							<label class="checkout-radio">
-								<input type="radio" name="coPay" id="coPaySaved" value="saved" checked />
-								<span>Saved Visa ···· 4242</span>
-							</label>
-							<label class="checkout-radio">
-								<input type="radio" name="coPay" id="coPayNew" value="new" />
-								<span>Use a different card</span>
-							</label>
-						</fieldset>
-						<div class="checkout-newcard" id="coNewCardFields" hidden>
+					<div class="checkout-body">
+						<div class="checkout-pane" id="checkoutPane1" data-pane="1">
+							<p class="checkout-intro">Where should we send your order?</p>
 							<label class="checkout-field">
-								<span>Name on card</span>
+								<span>Full name</span>
 								<input
 									type="text"
-									id="coCardName"
-									autocomplete="cc-name"
-									placeholder="Same as on your card" />
+									id="coFullName"
+									autocomplete="name"
+									placeholder="e.g. Jane Cooper"
+									required />
 							</label>
 							<label class="checkout-field">
-								<span>Card number</span>
+								<span>Email</span>
+								<input
+									type="email"
+									id="coEmail"
+									autocomplete="email"
+									placeholder="jane@example.com"
+									required />
+							</label>
+							<label class="checkout-field">
+								<span>Phone</span>
+								<input
+									type="tel"
+									id="coPhone"
+									autocomplete="tel"
+									placeholder="(406) 555-0120"
+									required />
+							</label>
+							<label class="checkout-field">
+								<span>Street address</span>
 								<input
 									type="text"
-									id="coCardNumber"
-									inputmode="numeric"
-									autocomplete="cc-number"
-									placeholder="4242 4242 4242 4242"
-									maxlength="19" />
+									id="coAddress"
+									autocomplete="street-address"
+									placeholder="123 Sweet Street, Apt 4"
+									required />
 							</label>
 							<div class="checkout-field-row">
 								<label class="checkout-field">
-									<span>Expires</span>
-									<input type="text" id="coCardExp" placeholder="MM/YY" maxlength="5" autocomplete="cc-exp" />
-								</label>
-								<label class="checkout-field">
-									<span>CVV</span>
+									<span>City</span>
 									<input
 										type="text"
-										id="coCardCvv"
+										id="coCity"
+										autocomplete="address-level2"
+										placeholder="Portland"
+										required />
+								</label>
+								<label class="checkout-field">
+									<span>ZIP</span>
+									<input
+										type="text"
+										id="coZip"
 										inputmode="numeric"
-										maxlength="4"
-										autocomplete="cc-csc"
-										placeholder="123" />
+										autocomplete="postal-code"
+										placeholder="97201"
+										required />
 								</label>
 							</div>
 						</div>
-					</div>
-					<div class="checkout-pane" id="checkoutPane3" data-pane="3" hidden>
-						<p class="checkout-intro">Confirm your order</p>
-						<div class="checkout-review-block" id="coReviewShip"></div>
-						<div class="checkout-review-block" id="coReviewPay"></div>
-						<div class="checkout-review-lines" id="coReviewLines"></div>
-						<p class="checkout-review-total">
-							Total <strong>$<span id="coReviewTotal">0.00</span></strong>
-						</p>
-					</div>
-					<div class="checkout-pane checkout-pane-success" id="checkoutPane4" data-pane="4" hidden>
-						<div class="checkout-success-icon" aria-hidden="true">
-							<i class="bx bx-check"></i>
+						<div class="checkout-pane" id="checkoutPane2" data-pane="2" hidden>
+							<p class="checkout-intro">Demo payment — nothing is charged.</p>
+							<fieldset class="checkout-pay-choice">
+								<legend class="visually-hidden">Payment method</legend>
+								<label class="checkout-radio">
+									<input
+										type="radio"
+										name="coPay"
+										id="coPaySaved"
+										value="saved"
+										checked />
+									<span>Saved Visa ···· 4242</span>
+								</label>
+								<label class="checkout-radio">
+									<input type="radio" name="coPay" id="coPayNew" value="new" />
+									<span>Use a different card</span>
+								</label>
+							</fieldset>
+							<div class="checkout-newcard" id="coNewCardFields" hidden>
+								<label class="checkout-field">
+									<span>Name on card</span>
+									<input
+										type="text"
+										id="coCardName"
+										autocomplete="cc-name"
+										placeholder="Same as on your card" />
+								</label>
+								<label class="checkout-field">
+									<span>Card number</span>
+									<input
+										type="text"
+										id="coCardNumber"
+										inputmode="numeric"
+										autocomplete="cc-number"
+										placeholder="4242 4242 4242 4242"
+										maxlength="19" />
+								</label>
+								<div class="checkout-field-row">
+									<label class="checkout-field">
+										<span>Expires</span>
+										<input
+											type="text"
+											id="coCardExp"
+											placeholder="MM/YY"
+											maxlength="5"
+											autocomplete="cc-exp" />
+									</label>
+									<label class="checkout-field">
+										<span>CVV</span>
+										<input
+											type="text"
+											id="coCardCvv"
+											inputmode="numeric"
+											maxlength="4"
+											autocomplete="cc-csc"
+											placeholder="123" />
+									</label>
+								</div>
+							</div>
 						</div>
-						<h3 class="checkout-success-title">Thank you!</h3>
-						<p class="checkout-success-text">
-							Your demo order is placed. No payment was processed.
-						</p>
-						<p class="checkout-order-id">
-							Order <strong id="coOrderId">—</strong>
-						</p>
+						<div class="checkout-pane" id="checkoutPane3" data-pane="3" hidden>
+							<p class="checkout-intro">Confirm your order</p>
+							<div class="checkout-review-block" id="coReviewShip"></div>
+							<div class="checkout-review-block" id="coReviewPay"></div>
+							<div class="checkout-review-lines" id="coReviewLines"></div>
+							<p class="checkout-review-total">
+								Total <strong>$<span id="coReviewTotal">0.00</span></strong>
+							</p>
+						</div>
+						<div
+							class="checkout-pane checkout-pane-success"
+							id="checkoutPane4"
+							data-pane="4"
+							hidden>
+							<div class="checkout-success-icon" aria-hidden="true">
+								<i class="bx bx-check"></i>
+							</div>
+							<h3 class="checkout-success-title">Thank you!</h3>
+							<p class="checkout-success-text">
+								Your demo order is placed. No payment was processed.
+							</p>
+							<p class="checkout-order-id">
+								Order <strong id="coOrderId">—</strong>
+							</p>
+							<button type="button" class="btn" id="checkoutDoneSuccess">
+								Close
+							</button>
+						</div>
 					</div>
-				</div>
-				<div class="checkout-foot" id="checkoutFoot">
-					<button type="button" class="btn btn-checkout-secondary" id="checkoutBack" hidden>
-						Back
-					</button>
-					<button type="button" class="btn" id="checkoutPrimary">Continue to payment</button>
-				</div>
+					<div class="checkout-foot" id="checkoutFoot">
+						<button
+							type="button"
+							class="btn btn-checkout-secondary"
+							id="checkoutBack"
+							hidden>
+							Back
+						</button>
+						<button type="button" class="btn" id="checkoutPrimary">
+							Continue to payment
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>

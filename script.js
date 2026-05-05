@@ -1,17 +1,35 @@
-let menu = document.querySelector('.bx-menu');
+let navMenuToggle = document.getElementById('navMenuToggle');
 let navbar = document.querySelector('.navbar');
 
-menu.addEventListener('click', function () {
-    menu.classList.toggle('bx-x');
+function syncMobileNavExpanded() {
+    if (!navMenuToggle || !navbar) return;
+    const open = navbar.classList.contains('nav-toggle');
+    navMenuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    navMenuToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+}
+
+navMenuToggle?.addEventListener('click', function () {
+    navMenuToggle.classList.toggle('bx-x');
     navbar.classList.toggle('nav-toggle');
+    syncMobileNavExpanded();
     closeNavPanels();
     closeCheckout();
 });
 
-window.addEventListener('scroll', () => {
-    menu.classList.remove('bx-x');
-    navbar.classList.remove('nav-toggle');
+navbar?.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', () => {
+        navMenuToggle?.classList.remove('bx-x');
+        navbar?.classList.remove('nav-toggle');
+        syncMobileNavExpanded();
+    });
 });
+
+window.addEventListener('scroll', () => {
+    navMenuToggle?.classList.remove('bx-x');
+    navbar?.classList.remove('nav-toggle');
+    syncMobileNavExpanded();
+});
+syncMobileNavExpanded();
 const header = document.querySelector('header');
 window.onscroll = function () {
     if (document.documentElement.scrollTop > 5) {
@@ -50,12 +68,30 @@ themeToggle?.addEventListener('click', () => {
         document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     applyTheme(next, true);
 });
-const accordion = document.querySelectorAll('.contentBox');
-for (let i = 0; i < accordion.length; i++) {
-    accordion[i].addEventListener('click', function () {
-        this.classList.toggle('active');
+function initAccordion() {
+    document.querySelectorAll('.accordion .contentBox').forEach((box) => {
+        const btn = box.querySelector('.accordion-trigger');
+        const panel = box.querySelector('.accordion-panel');
+        if (!btn || !panel) return;
+
+        btn.addEventListener('click', () => {
+            const willOpen = !box.classList.contains('active');
+            document.querySelectorAll('.accordion .contentBox').forEach((other) => {
+                if (other === box) return;
+                other.classList.remove('active');
+                const ob = other.querySelector('.accordion-trigger');
+                const op = other.querySelector('.accordion-panel');
+                ob?.setAttribute('aria-expanded', 'false');
+                op?.setAttribute('aria-hidden', 'true');
+            });
+            box.classList.toggle('active', willOpen);
+            btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            panel.setAttribute('aria-hidden', willOpen ? 'false' : 'true');
+        });
     });
 }
+
+initAccordion();
 
 /* —— Cart & profile (localStorage demo) —— */
 const CART_KEY = 'topglanceCart';
@@ -108,10 +144,6 @@ function addToCartFromButton(btn) {
     else cart.push({ id, name, price, image, qty: 1 });
     saveCart(cart);
     showToast('Added to cart: ' + name);
-    cartPanel.hidden = false;
-    cartToggle.setAttribute('aria-expanded', 'true');
-    profilePanel.hidden = true;
-    profileToggle.setAttribute('aria-expanded', 'false');
 }
 
 function setLineQty(id, qty) {
@@ -142,7 +174,7 @@ function renderCart() {
         const img = document.createElement('img');
         img.className = 'cart-line-thumb';
         img.src = line.image || 'images/product.png';
-        img.alt = '';
+        img.alt = line.name;
         const body = document.createElement('div');
         body.className = 'cart-line-body';
         body.innerHTML =
@@ -164,9 +196,7 @@ function renderCart() {
         plus.textContent = '+';
         plus.addEventListener('click', () => setLineQty(line.id, line.qty + 1));
         const remove = document.createElement('button');
-        remove.type = 'button';
-        remove.className = 'cart-remove';
-        remove.textContent = 'Remove';
+        remove.setAttribute('aria-label', 'Remove ' + line.name + ' from cart');
         remove.addEventListener('click', () => setLineQty(line.id, 0));
         actions.append(minus, plus, remove);
         li.append(img, body);
@@ -243,6 +273,7 @@ document.addEventListener('click', (e) => {
 });
 
 document.addEventListener('keydown', (e) => {
+    if (checkoutModal && !checkoutModal.hidden) checkoutFocusTrap(e);
     if (e.key === 'Escape') {
         if (checkoutModal && !checkoutModal.hidden) closeCheckout();
         else closeNavPanels();
@@ -285,6 +316,37 @@ const coNewCardFields = document.getElementById('coNewCardFields');
 const coPaySaved = document.getElementById('coPaySaved');
 const coPayNew = document.getElementById('coPayNew');
 
+let checkoutPreviousFocus = null;
+
+function getFocusableElements(root) {
+    const sel =
+        'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    return Array.from(root.querySelectorAll(sel)).filter((el) => {
+        if (el.hasAttribute('disabled')) return false;
+        if (el.closest('[hidden]')) return false;
+        return el.offsetParent !== null || el === document.activeElement;
+    });
+}
+
+function checkoutFocusTrap(e) {
+    if (!checkoutModal || checkoutModal.hidden || e.key !== 'Tab') return;
+    const dialog =
+        checkoutModal.querySelector('.checkout-dialog-surface') || checkoutModal;
+    const focusables = getFocusableElements(dialog);
+    if (focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey) {
+        if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+        }
+    } else if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+    }
+}
+
 let checkoutStep = 1;
 
 function syncPaymentFields() {
@@ -315,32 +377,40 @@ function validateShipping() {
     const city = document.getElementById('coCity');
     const zip = document.getElementById('coZip');
     let ok = true;
+    let firstInvalid = null;
     if (!fullName.value.trim()) {
         fieldError(fullName, 'Please enter your name');
         ok = false;
+        if (!firstInvalid) firstInvalid = fullName;
     }
     const em = email.value.trim();
     if (!em || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
         fieldError(email, 'Enter a valid email');
         ok = false;
+        if (!firstInvalid) firstInvalid = email;
     }
     if (!phone.value.trim()) {
         fieldError(phone, 'Please enter a phone number');
         ok = false;
+        if (!firstInvalid) firstInvalid = phone;
     }
     if (!address.value.trim()) {
         fieldError(address, 'Please enter a street address');
         ok = false;
+        if (!firstInvalid) firstInvalid = address;
     }
     if (!city.value.trim()) {
         fieldError(city, 'Please enter a city');
         ok = false;
+        if (!firstInvalid) firstInvalid = city;
     }
     const z = zip.value.trim();
     if (!z || z.length < 4) {
         fieldError(zip, 'Enter a valid ZIP / postal code');
         ok = false;
+        if (!firstInvalid) firstInvalid = zip;
     }
+    if (!ok && firstInvalid) firstInvalid.focus();
     return ok;
 }
 
@@ -356,25 +426,31 @@ function validatePayment() {
     const exp = document.getElementById('coCardExp');
     const cvv = document.getElementById('coCardCvv');
     let ok = true;
+    let firstInvalid = null;
     if (!name.value.trim()) {
         fieldError(name, 'Name on card is required');
         ok = false;
+        if (!firstInvalid) firstInvalid = name;
     }
     const digits = cardDigitsOnly(num.value);
     if (digits.length < 15) {
         fieldError(num, 'Enter a full card number (demo: any 16 digits)');
         ok = false;
+        if (!firstInvalid) firstInvalid = num;
     }
     const ex = exp.value.trim();
     if (!/^\d{2}\/\d{2}$/.test(ex)) {
         fieldError(exp, 'Use MM/YY format');
         ok = false;
+        if (!firstInvalid) firstInvalid = exp;
     }
     const cv = cardDigitsOnly(cvv.value);
     if (cv.length < 3) {
         fieldError(cvv, 'Enter CVV (3–4 digits)');
         ok = false;
+        if (!firstInvalid) firstInvalid = cvv;
     }
+    if (!ok && firstInvalid) firstInvalid.focus();
     return ok;
 }
 
@@ -471,6 +547,7 @@ function openCheckout() {
         showToast('Your cart is empty');
         return;
     }
+    checkoutPreviousFocus = document.activeElement;
     closeNavPanels();
     checkoutStep = 1;
     setCheckoutStep(1);
@@ -478,6 +555,14 @@ function openCheckout() {
     document.body.style.overflow = 'hidden';
     const t = document.getElementById('checkoutDialogTitle');
     if (t) t.textContent = 'Checkout';
+    requestAnimationFrame(() => {
+        const dialog =
+            checkoutModal.querySelector('.checkout-dialog-surface') || checkoutModal;
+        const focusables = getFocusableElements(dialog);
+        const nameField = document.getElementById('coFullName');
+        if (nameField && focusables.includes(nameField)) nameField.focus();
+        else if (focusables.length) focusables[0].focus();
+    });
 }
 
 function closeCheckout() {
@@ -487,6 +572,13 @@ function closeCheckout() {
     checkoutStep = 1;
     setCheckoutStep(1);
     clearCheckoutErrors();
+    const ref = checkoutPreviousFocus;
+    checkoutPreviousFocus = null;
+    if (ref && typeof ref.focus === 'function') {
+        try {
+            ref.focus();
+        } catch (_) {}
+    }
 }
 
 function placeDemoOrder() {
@@ -495,6 +587,7 @@ function placeDemoOrder() {
     saveCart([]);
     setCheckoutStep(4);
     showToast('Order placed (demo)');
+    requestAnimationFrame(() => checkoutDoneSuccess?.focus());
 }
 
 if (coPaySaved) coPaySaved.addEventListener('change', syncPaymentFields);
@@ -524,9 +617,13 @@ if (checkoutPrimary) {
     });
 }
 
-const checkoutBtn = document.querySelector('.btn-checkout');
+const checkoutBtn = document.getElementById('cartCheckoutBtn');
+const checkoutDoneSuccess = document.getElementById('checkoutDoneSuccess');
 if (checkoutBtn) {
     checkoutBtn.addEventListener('click', () => openCheckout());
+}
+if (checkoutDoneSuccess) {
+    checkoutDoneSuccess.addEventListener('click', () => closeCheckout());
 }
 
 renderCart();
