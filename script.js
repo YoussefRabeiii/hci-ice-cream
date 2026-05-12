@@ -12,7 +12,7 @@ navMenuToggle?.addEventListener("click", function () {
 	navMenuToggle.classList.toggle("bx-x");
 	navbar.classList.toggle("nav-toggle");
 	syncMobileNavExpanded();
-	closeNavPanels();
+	closeNavPanels({ restoreFocus: false });
 	closeCheckout();
 });
 
@@ -28,6 +28,7 @@ window.addEventListener("scroll", () => {
 	navMenuToggle?.classList.remove("bx-x");
 	navbar?.classList.remove("nav-toggle");
 	syncMobileNavExpanded();
+	closeNavPanels({ restoreFocus: false });
 });
 syncMobileNavExpanded();
 const header = document.querySelector("header");
@@ -112,6 +113,7 @@ const profilePanel = document.getElementById("profilePanel");
 const profileClose = document.getElementById("profileClose");
 const fakeCardUse = document.getElementById("fakeCardUse");
 const toastEl = document.getElementById("toast");
+const checkoutAnnounceEl = document.getElementById("checkoutAnnounce");
 let toastTimer;
 
 function loadCart() {
@@ -133,7 +135,7 @@ function saveCart(cart) {
 
 function syncBadge() {
 	const n = loadCart().reduce((s, x) => s + x.qty, 0);
-	cartBadge.textContent = String(n);
+	if (cartBadge) cartBadge.textContent = String(n);
 }
 
 function addToCartFromButton(btn) {
@@ -161,6 +163,7 @@ function setLineQty(id, qty) {
 
 function renderCart() {
 	const cart = loadCart();
+	if (!cartLines) return;
 	cartLines.innerHTML = "";
 	if (cart.length === 0) {
 		cartEmpty.hidden = false;
@@ -190,30 +193,48 @@ function renderCart() {
 		const minus = document.createElement("button");
 		minus.type = "button";
 		minus.className = "qty-btn";
-		minus.setAttribute("aria-label", "Decrease quantity");
+		minus.setAttribute(
+			"aria-label",
+			"Decrease quantity of " + line.name + " in cart",
+		);
 		minus.textContent = "−";
 		minus.addEventListener("click", () => setLineQty(line.id, line.qty - 1));
 		const plus = document.createElement("button");
 		plus.type = "button";
 		plus.className = "qty-btn";
-		plus.setAttribute("aria-label", "Increase quantity");
+		plus.setAttribute(
+			"aria-label",
+			"Increase quantity of " + line.name + " in cart",
+		);
 		plus.textContent = "+";
 		plus.addEventListener("click", () => setLineQty(line.id, line.qty + 1));
 		const remove = document.createElement("button");
+		remove.type = "button";
+		remove.className = "cart-remove";
 		remove.setAttribute("aria-label", "Remove " + line.name + " from cart");
-		remove.addEventListener("click", () => setLineQty(line.id, 0));
+		remove.textContent = "Remove";
 		actions.append(minus, plus, remove);
 		li.append(img, body);
 		cartLines.appendChild(li);
 	});
-	cartTotal.textContent = total.toFixed(2);
+	if (cartTotal) cartTotal.textContent = total.toFixed(2);
 }
 
-function closeNavPanels() {
-	cartPanel.hidden = true;
-	profilePanel.hidden = true;
-	cartToggle.setAttribute("aria-expanded", "false");
-	profileToggle.setAttribute("aria-expanded", "false");
+let navPanelPreviousFocus = null;
+
+function closeNavPanels(options = {}) {
+	const restore = options.restoreFocus === true;
+	const ref = restore ? navPanelPreviousFocus : null;
+	if (cartPanel) cartPanel.hidden = true;
+	if (profilePanel) profilePanel.hidden = true;
+	cartToggle?.setAttribute("aria-expanded", "false");
+	profileToggle?.setAttribute("aria-expanded", "false");
+	navPanelPreviousFocus = null;
+	if (ref && typeof ref.focus === "function") {
+		try {
+			ref.focus();
+		} catch (_) {}
+	}
 }
 
 function showToast(msg) {
@@ -234,31 +255,47 @@ if (cartToggle && cartPanel) {
 	cartToggle.addEventListener("click", (e) => {
 		e.stopPropagation();
 		if (!cartPanel.hidden) {
-			closeNavPanels();
+			closeNavPanels({ restoreFocus: true });
 			return;
 		}
-		profilePanel.hidden = true;
-		profileToggle.setAttribute("aria-expanded", "false");
+		navPanelPreviousFocus = document.activeElement;
+		if (profilePanel) profilePanel.hidden = true;
+		profileToggle?.setAttribute("aria-expanded", "false");
 		cartPanel.hidden = false;
 		cartToggle.setAttribute("aria-expanded", "true");
+		requestAnimationFrame(() => {
+			const focusables = getFocusableElements(cartPanel);
+			(focusables[0] || cartClose)?.focus?.();
+		});
 	});
 }
-if (cartClose) cartClose.addEventListener("click", closeNavPanels);
+if (cartClose)
+	cartClose.addEventListener("click", () =>
+		closeNavPanels({ restoreFocus: true }),
+	);
 
 if (profileToggle && profilePanel) {
 	profileToggle.addEventListener("click", (e) => {
 		e.stopPropagation();
 		if (!profilePanel.hidden) {
-			closeNavPanels();
+			closeNavPanels({ restoreFocus: true });
 			return;
 		}
-		cartPanel.hidden = true;
-		cartToggle.setAttribute("aria-expanded", "false");
+		navPanelPreviousFocus = document.activeElement;
+		if (cartPanel) cartPanel.hidden = true;
+		cartToggle?.setAttribute("aria-expanded", "false");
 		profilePanel.hidden = false;
 		profileToggle.setAttribute("aria-expanded", "true");
+		requestAnimationFrame(() => {
+			const focusables = getFocusableElements(profilePanel);
+			(focusables[0] || profileClose)?.focus?.();
+		});
 	});
 }
-if (profileClose) profileClose.addEventListener("click", closeNavPanels);
+if (profileClose)
+	profileClose.addEventListener("click", () =>
+		closeNavPanels({ restoreFocus: true }),
+	);
 
 /* Clicks inside panels must not bubble to document: after Remove, the target node is
    detached so closest('.nav-action-wrap') fails and the panel would wrongly close. */
@@ -268,21 +305,6 @@ if (cartPanel) {
 if (profilePanel) {
 	profilePanel.addEventListener("click", (e) => e.stopPropagation());
 }
-
-document.addEventListener("click", (e) => {
-	if (e.target.closest(".checkout-modal")) return;
-	if (e.target.closest(".nav-action-wrap")) return;
-	if (e.target.closest(".add-to-cart")) return;
-	closeNavPanels();
-});
-
-document.addEventListener("keydown", (e) => {
-	if (checkoutModal && !checkoutModal.hidden) checkoutFocusTrap(e);
-	if (e.key === "Escape") {
-		if (checkoutModal && !checkoutModal.hidden) closeCheckout();
-		else closeNavPanels();
-	}
-});
 
 document.querySelectorAll(".add-to-cart").forEach((btn) => {
 	btn.addEventListener("click", () => addToCartFromButton(btn));
@@ -328,7 +350,13 @@ function getFocusableElements(root) {
 	return Array.from(root.querySelectorAll(sel)).filter((el) => {
 		if (el.hasAttribute("disabled")) return false;
 		if (el.closest("[hidden]")) return false;
-		return el.offsetParent !== null || el === document.activeElement;
+		if (typeof el.checkVisibility === "function") {
+			return el.checkVisibility({
+				checkOpacity: true,
+				checkVisibilityCSS: true,
+			});
+		}
+		return el.getClientRects().length > 0;
 	});
 }
 
@@ -337,6 +365,27 @@ function checkoutFocusTrap(e) {
 	const dialog =
 		checkoutModal.querySelector(".checkout-dialog-surface") || checkoutModal;
 	const focusables = getFocusableElements(dialog);
+	if (focusables.length === 0) return;
+	const first = focusables[0];
+	const last = focusables[focusables.length - 1];
+	if (e.shiftKey) {
+		if (document.activeElement === first) {
+			e.preventDefault();
+			last.focus();
+		}
+	} else if (document.activeElement === last) {
+		e.preventDefault();
+		first.focus();
+	}
+}
+
+function trapNavPanelFocus(e) {
+	if (e.key !== "Tab") return;
+	let panel = null;
+	if (cartPanel && !cartPanel.hidden) panel = cartPanel;
+	else if (profilePanel && !profilePanel.hidden) panel = profilePanel;
+	if (!panel) return;
+	const focusables = getFocusableElements(panel);
 	if (focusables.length === 0) return;
 	const first = focusables[0];
 	const last = focusables[focusables.length - 1];
@@ -362,16 +411,51 @@ function clearCheckoutErrors() {
 	document
 		.querySelectorAll(".checkout-input-error")
 		.forEach((el) => el.classList.remove("checkout-input-error"));
+	document.querySelectorAll("#checkoutModal input").forEach((inp) => {
+		inp.removeAttribute("aria-invalid");
+		const d = inp.getAttribute("aria-describedby");
+		if (!d) return;
+		const kept = d.split(/\s+/).filter((id) => !id.startsWith("co-err-"));
+		if (kept.length) inp.setAttribute("aria-describedby", kept.join(" "));
+		else inp.removeAttribute("aria-describedby");
+	});
 	document.querySelectorAll(".checkout-error-msg").forEach((el) => el.remove());
+}
+
+function announceCheckout(msg) {
+	if (!checkoutAnnounceEl || !msg) return;
+	checkoutAnnounceEl.textContent = "";
+	requestAnimationFrame(() => {
+		checkoutAnnounceEl.textContent = msg;
+	});
 }
 
 function fieldError(input, msg) {
 	if (!input) return;
 	input.classList.add("checkout-input-error");
+	input.setAttribute("aria-invalid", "true");
+	const errId =
+		"co-err-" +
+		(input.id || "anon") +
+		"-" +
+		String(Date.now() + Math.random()).replace(/\W/g, "").slice(-8);
 	const p = document.createElement("p");
+	p.id = errId;
 	p.className = "checkout-error-msg";
+	p.setAttribute("role", "alert");
 	p.textContent = msg;
+	const described = input.getAttribute("aria-describedby");
+	if (described) {
+		const ids = described
+			.split(/\s+/)
+			.filter((id) => !id.startsWith("co-err-"));
+		ids.push(errId);
+		input.setAttribute("aria-describedby", ids.join(" "));
+	} else {
+		input.setAttribute("aria-describedby", errId);
+	}
 	input.closest(".checkout-field")?.appendChild(p);
+	announceCheckout(msg);
 }
 
 function validateShipping() {
@@ -555,8 +639,13 @@ function openCheckout() {
 		showToast("Your cart is empty");
 		return;
 	}
-	checkoutPreviousFocus = document.activeElement;
-	closeNavPanels();
+	const active = document.activeElement;
+	if (cartPanel && !cartPanel.hidden && active && cartPanel.contains(active)) {
+		checkoutPreviousFocus = cartToggle || active;
+	} else {
+		checkoutPreviousFocus = active;
+	}
+	closeNavPanels({ restoreFocus: false });
 	checkoutStep = 1;
 	setCheckoutStep(1);
 	checkoutModal.hidden = false;
@@ -637,6 +726,22 @@ if (checkoutBtn) {
 if (checkoutDoneSuccess) {
 	checkoutDoneSuccess.addEventListener("click", () => closeCheckout());
 }
+
+document.addEventListener("click", (e) => {
+	if (e.target.closest(".checkout-modal")) return;
+	if (e.target.closest(".nav-action-wrap")) return;
+	if (e.target.closest(".add-to-cart")) return;
+	closeNavPanels({ restoreFocus: true });
+});
+
+document.addEventListener("keydown", (e) => {
+	if (checkoutModal && !checkoutModal.hidden) checkoutFocusTrap(e);
+	else trapNavPanelFocus(e);
+	if (e.key === "Escape") {
+		if (checkoutModal && !checkoutModal.hidden) closeCheckout();
+		else closeNavPanels({ restoreFocus: true });
+	}
+});
 
 renderCart();
 syncBadge();
