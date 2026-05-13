@@ -26,23 +26,29 @@
 		<link
 			href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
 			rel="stylesheet" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
+			rel="stylesheet" />
 		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
 		<a href="#main-content" class="skip-link">Skip to main content</a>
 		<!-- header section -->
 		<header role="banner">
-			<a href="#home"
+			<a href="index.html#home"
 				><img src="images/logo.png" alt="TopGlance Ice Cream"
 			/></a>
 			<nav class="navbar" id="siteNav" aria-label="Primary">
 				<ul>
-					<li><a href="#home">home</a></li>
-					<li><a href="#about">about</a></li>
-					<li><a href="#shop">shop</a></li>
-					<li><a href="#menu">menu</a></li>
-					<li><a href="#faq">faq</a></li>
-					<li><a href="#blog">blog</a></li>
+					<li><a href="index.html#home">home</a></li>
+					<li><a href="index.html#about">about</a></li>
+					<li><a href="index.html#shop">shop</a></li>
+					<li><a href="product.html">product</a></li>
+					<li><a href="index.html#menu">menu</a></li>
+					<li><a href="index.html#faq">faq</a></li>
+					<li><a href="index.html#blog">blog</a></li>
 				</ul>
 			</nav>
 			<div class="nav-actions">
@@ -132,17 +138,66 @@
 								&times;
 							</button>
 						</div>
-						<div class="profile-card">
-							<div class="profile-avatar" aria-hidden="true">DU</div>
-							<div class="profile-meta">
-								<strong>Demo User</strong>
-								<span>demo@topglance.ice</span>
+						<div class="login-flow" id="loginFlow">
+							<div class="login-step" id="loginStepEmail">
+								<p class="login-copy">
+									Sign in to unlock your rewards and saved checkout details.
+								</p>
+								<label class="login-field" for="loginEmail">
+									<span>Email address</span>
+									<input
+										type="email"
+										id="loginEmail"
+										autocomplete="email"
+										placeholder="demo@topglance.ice" />
+								</label>
+								<button type="button" class="btn login-btn" id="loginContinue">
+									Continue
+								</button>
+								<p class="login-note">Demo only: any valid email can continue.</p>
+							</div>
+							<div class="login-step" id="loginStepCode" hidden>
+								<p class="login-copy">
+									We sent a fake 6-digit code to your email.
+								</p>
+								<div class="login-code-card">
+									<span>Demo verification code</span>
+									<strong>123456</strong>
+								</div>
+								<label class="login-field" for="loginCode">
+									<span>Verification code</span>
+									<input
+										type="text"
+										id="loginCode"
+										inputmode="numeric"
+										autocomplete="one-time-code"
+										maxlength="6"
+										placeholder="123456" />
+								</label>
+								<button type="button" class="btn login-btn" id="loginVerify">
+									Verify & sign in
+								</button>
+								<button type="button" class="login-link" id="loginBack">
+									Use a different email
+								</button>
 							</div>
 						</div>
-						<p class="profile-hint">
-							Rewards: <strong>120 pts</strong> · Orders: <strong>3</strong>
-						</p>
-						<div class="saved-card-block">
+						<div class="profile-signed-in" id="profileSignedIn" hidden>
+							<div class="profile-card">
+								<div class="profile-avatar" aria-hidden="true">DU</div>
+								<div class="profile-meta">
+									<strong>Demo User</strong>
+									<span id="profileEmail">demo@topglance.ice</span>
+								</div>
+							</div>
+							<p class="profile-hint">
+								Rewards: <strong>120 pts</strong> · Orders: <strong>3</strong>
+							</p>
+							<button type="button" class="login-link" id="loginSignOut">
+								Sign out demo account
+							</button>
+						</div>
+						<div class="saved-card-block" id="savedCardBlock" hidden>
 							<span class="saved-card-label">Saved card</span>
 							<div class="saved-card">
 								<div class="saved-card-top">
@@ -390,6 +445,31 @@
 							</button>
 						</div>
 					</div>
+				</div>
+			</section>
+			<!-- product banner section -->
+			<section class="products-banner" id="products" aria-labelledby="products-title">
+				<div class="products-hero">
+					<div class="products-copy">
+						<span class="eyebrow">Featured flavor</span>
+						<h2 id="products-title">Strawberry Cloud Sundae</h2>
+						<p>
+							A layered sundae with strawberry ribbons, vanilla bean cream,
+							crunchy waffle pieces, and a bright berry finish.
+						</p>
+						<ul class="product-highlights" aria-label="Product highlights">
+							<li><i class="bx bx-leaf" aria-hidden="true"></i> Real fruit swirl</li>
+							<li><i class="bx bx-time-five" aria-hidden="true"></i> Ready in 5 minutes</li>
+							<li><i class="bx bx-star" aria-hidden="true"></i> Customer favorite</li>
+						</ul>
+						<div class="products-actions">
+							<strong class="featured-price">$12.99</strong>
+							<a href="product.html" class="btn">View Product</a>
+						</div>
+					</div>
+					<a href="product.html" class="products-image" aria-label="View Strawberry Cloud Sundae product page">
+						<img src="images/img_5.png" alt="Strawberry Cloud Sundae dessert" />
+					</a>
 				</div>
 			</section>
 			<!-- menu section -->

@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="description"
+			content="TopGlance Strawberry Cloud Sundae product page with cart and checkout demo." />
+		<title>Strawberry Cloud Sundae — TopGlance Ice Cream</title>
+		<script>
+			(function () {
+				try {
+					var k = "topglanceTheme";
+					var t = localStorage.getItem(k);
+					if (t === "dark" || t === "light") {
+						document.documentElement.setAttribute("data-theme", t);
+					} else if (
+						window.matchMedia("(prefers-color-scheme: dark)").matches
+					) {
+						document.documentElement.setAttribute("data-theme", "dark");
+					}
+				} catch (e) {}
+			})();
+		</script>
+		<link
+			href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+			rel="stylesheet" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
+			rel="stylesheet" />
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<a href="#main-content" class="skip-link">Skip to main content</a>
+		<header role="banner">
+			<a href="index.html#home"
+				><img src="images/logo.png" alt="TopGlance Ice Cream"
+			/></a>
+			<nav class="navbar" id="siteNav" aria-label="Primary">
+				<ul>
+					<li><a href="index.html#home">home</a></li>
+					<li><a href="index.html#about">about</a></li>
+					<li><a href="index.html#shop">shop</a></li>
+					<li><a href="product.html">product</a></li>
+					<li><a href="index.html#menu">menu</a></li>
+					<li><a href="index.html#faq">faq</a></li>
+					<li><a href="index.html#blog">blog</a></li>
+				</ul>
+			</nav>
+			<div class="nav-actions">
+				<button
+					type="button"
+					class="theme-switch"
+					id="themeToggle"
+					role="switch"
+					aria-checked="false"
+					aria-label="Switch to dark mode"
+					title="Theme">
+					<span class="theme-switch-track">
+						<i
+							class="bx bx-sun theme-switch-icon theme-switch-icon--sun"
+							aria-hidden="true"></i>
+						<i
+							class="bx bx-moon theme-switch-icon theme-switch-icon--moon"
+							aria-hidden="true"></i>
+						<span class="theme-switch-thumb"></span>
+					</span>
+				</button>
+				<div class="nav-action-wrap cart-wrap">
+					<button
+						type="button"
+						class="nav-icon-btn cart-toggle"
+						id="cartToggle"
+						aria-label="Shopping cart"
+						aria-expanded="false"
+						aria-controls="cartPanel">
+						<i class="bx bx-cart" aria-hidden="true"></i>
+						<span class="cart-badge" id="cartBadge">0</span>
+					</button>
+					<div
+						class="nav-panel cart-panel"
+						id="cartPanel"
+						role="dialog"
+						aria-modal="true"
+						aria-labelledby="cartPanelTitle"
+						hidden>
+						<div class="nav-panel-head">
+							<h4 id="cartPanelTitle">Your cart</h4>
+							<button
+								type="button"
+								class="panel-close"
+								id="cartClose"
+								aria-label="Close cart">
+								&times;
+							</button>
+						</div>
+						<ul class="cart-lines" id="cartLines"></ul>
+						<p class="cart-empty" id="cartEmpty">Your cart is empty.</p>
+						<div class="cart-footer" id="cartFooter" hidden>
+							<p class="cart-total">Total: $<span id="cartTotal">0.00</span></p>
+							<button
+								type="button"
+								class="btn btn-checkout"
+								id="cartCheckoutBtn">
+								Checkout
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="nav-action-wrap profile-wrap">
+					<button
+						type="button"
+						class="nav-icon-btn profile-toggle"
+						id="profileToggle"
+						aria-label="Account"
+						aria-expanded="false"
+						aria-controls="profilePanel">
+						<i class="bx bx-user-circle" aria-hidden="true"></i>
+					</button>
+					<div
+						class="nav-panel profile-panel"
+						id="profilePanel"
+						role="dialog"
+						aria-modal="true"
+						aria-labelledby="profilePanelTitle"
+						hidden>
+						<div class="nav-panel-head">
+							<h4 id="profilePanelTitle">Account</h4>
+							<button
+								type="button"
+								class="panel-close"
+								id="profileClose"
+								aria-label="Close account">
+								&times;
+							</button>
+						</div>
+						<div class="profile-card">
+							<div class="profile-avatar" aria-hidden="true">DU</div>
+							<div class="profile-meta">
+								<strong>Demo User</strong>
+								<span>demo@topglance.ice</span>
+							</div>
+						</div>
+						<p class="profile-hint">
+							Rewards: <strong>120 pts</strong> · Orders: <strong>3</strong>
+						</p>
+					</div>
+				</div>
+			</div>
+			<button
+				type="button"
+				class="bx bx-menu nav-menu-toggle"
+				id="navMenuToggle"
+				aria-label="Open menu"
+				aria-expanded="false"
+				aria-controls="siteNav"></button>
+		</header>
+		<main id="main-content">
+			<section class="product-page" aria-labelledby="product-title">
+				<a href="index.html#products" class="product-back">
+					<i class="bx bx-left-arrow-alt" aria-hidden="true"></i>
+					Back to featured banner
+				</a>
+				<div class="product-detail">
+					<div class="product-gallery">
+						<div class="product-main-image">
+							<img src="images/img_5.png" alt="Strawberry Cloud Sundae dessert" />
+						</div>
+						<div class="product-thumbs" aria-label="Product preview images">
+							<img src="images/product0.png" alt="Berry topping preview" />
+							<img src="images/product1.png" alt="Mint scoop preview" />
+							<img src="images/product4.png" alt="Chocolate drizzle preview" />
+						</div>
+					</div>
+					<div class="product-summary">
+						<span class="eyebrow">Single product</span>
+						<h1 id="product-title">Strawberry Cloud Sundae</h1>
+						<div class="product-rating" aria-label="Rated 4.8 out of 5">
+							<i class="bx bxs-star" aria-hidden="true"></i>
+							<i class="bx bxs-star" aria-hidden="true"></i>
+							<i class="bx bxs-star" aria-hidden="true"></i>
+							<i class="bx bxs-star" aria-hidden="true"></i>
+							<i class="bx bxs-star-half" aria-hidden="true"></i>
+							<span>4.8 · 126 reviews</span>
+						</div>
+						<p>
+							Our signature sundae layers vanilla bean ice cream, strawberry
+							ribbons, waffle crunch, and a glossy berry drizzle for a bright,
+							creamy finish.
+						</p>
+						<div class="product-price-row">
+							<strong>$12.99</strong>
+							<span>In stock · ready today</span>
+						</div>
+						<div class="product-option-group">
+							<span class="product-option-label">Choose size</span>
+							<div class="product-options" aria-label="Choose size">
+								<button
+									type="button"
+									class="product-option is-selected"
+									data-size="Regular"
+									data-price="12.99"
+									aria-pressed="true">
+									Regular
+								</button>
+								<button
+									type="button"
+									class="product-option"
+									data-size="Large"
+									data-price="15.99"
+									aria-pressed="false">
+									Large
+								</button>
+								<button
+									type="button"
+									class="product-option"
+									data-size="Party cup"
+									data-price="21.99"
+									aria-pressed="false">
+									Party cup
+								</button>
+							</div>
+						</div>
+						<div class="product-option-group">
+							<span class="product-option-label">Delivery</span>
+							<div class="product-delivery">
+								<i class="bx bx-cycling" aria-hidden="true"></i>
+								<div>
+									<strong>30 minute local delivery</strong>
+									<span>Free pickup available at the cafe counter.</span>
+								</div>
+							</div>
+						</div>
+						<div class="product-actions">
+							<button
+								type="button"
+								class="btn add-to-cart"
+								data-id="product-strawberry-cloud"
+								data-name="Strawberry Cloud Sundae"
+								data-price="12.99"
+								data-image="images/img_5.png">
+								Add To Cart
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="product-info-grid">
+					<article>
+						<i class="bx bx-leaf" aria-hidden="true"></i>
+						<h3>Ingredients</h3>
+						<p>Vanilla cream, strawberry swirl, waffle crunch, berry sauce.</p>
+					</article>
+					<article>
+						<i class="bx bx-package" aria-hidden="true"></i>
+						<h3>Serving</h3>
+						<p>Best enjoyed immediately, or frozen for up to 24 hours.</p>
+					</article>
+					<article>
+						<i class="bx bx-check-shield" aria-hidden="true"></i>
+						<h3>Allergens</h3>
+						<p>Contains milk, wheat, and may contain traces of nuts.</p>
+					</article>
+				</div>
+			</section>
+		</main>
+		<div id="checkoutAnnounce" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></div>
+		<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+		<script src="script.js"></script>
+	</body>
+</html>

@@ -16,7 +16,7 @@ navMenuToggle?.addEventListener("click", function () {
 	closeCheckout();
 });
 
-navbar?.querySelectorAll('a[href^="#"]').forEach((link) => {
+navbar?.querySelectorAll("a").forEach((link) => {
 	link.addEventListener("click", () => {
 		navMenuToggle?.classList.remove("bx-x");
 		navbar?.classList.remove("nav-toggle");
@@ -112,9 +112,22 @@ const profileToggle = document.getElementById("profileToggle");
 const profilePanel = document.getElementById("profilePanel");
 const profileClose = document.getElementById("profileClose");
 const fakeCardUse = document.getElementById("fakeCardUse");
+const loginFlow = document.getElementById("loginFlow");
+const loginStepEmail = document.getElementById("loginStepEmail");
+const loginStepCode = document.getElementById("loginStepCode");
+const loginEmail = document.getElementById("loginEmail");
+const loginCode = document.getElementById("loginCode");
+const loginContinue = document.getElementById("loginContinue");
+const loginVerify = document.getElementById("loginVerify");
+const loginBack = document.getElementById("loginBack");
+const loginSignOut = document.getElementById("loginSignOut");
+const profileSignedIn = document.getElementById("profileSignedIn");
+const profileEmail = document.getElementById("profileEmail");
+const savedCardBlock = document.getElementById("savedCardBlock");
 const toastEl = document.getElementById("toast");
 const checkoutAnnounceEl = document.getElementById("checkoutAnnounce");
 let toastTimer;
+let pendingLoginEmail = "demo@topglance.ice";
 
 function loadCart() {
 	try {
@@ -150,6 +163,38 @@ function addToCartFromButton(btn) {
 	else cart.push({ id, name, price, image, qty: 1 });
 	saveCart(cart);
 	showToast("Added to cart: " + name);
+}
+
+function initProductOptions() {
+	const optionGroups = document.querySelectorAll(".product-options");
+	optionGroups.forEach((group) => {
+		const section = group.closest(".product-page");
+		const priceEl = section?.querySelector(".product-price-row strong");
+		const addBtns = section?.querySelectorAll(".add-to-cart") || [];
+		const baseName = addBtns[0]?.getAttribute("data-name") || "";
+		const baseId = addBtns[0]?.getAttribute("data-id") || "";
+
+		group.querySelectorAll(".product-option").forEach((option) => {
+			option.addEventListener("click", () => {
+				const size = option.getAttribute("data-size") || option.textContent.trim();
+				const price = option.getAttribute("data-price");
+				if (!price) return;
+
+				group.querySelectorAll(".product-option").forEach((other) => {
+					const selected = other === option;
+					other.classList.toggle("is-selected", selected);
+					other.setAttribute("aria-pressed", selected ? "true" : "false");
+				});
+
+				if (priceEl) priceEl.textContent = "$" + Number(price).toFixed(2);
+				addBtns.forEach((btn) => {
+					btn.setAttribute("data-price", price);
+					if (baseName) btn.setAttribute("data-name", baseName + " - " + size);
+					if (baseId) btn.setAttribute("data-id", baseId + "-" + size.toLowerCase().replace(/\s+/g, "-"));
+				});
+			});
+		});
+	});
 }
 
 function setLineQty(id, qty) {
@@ -297,6 +342,82 @@ if (profileClose)
 		closeNavPanels({ restoreFocus: true }),
 	);
 
+function setLoginError(input) {
+	if (!input) return;
+	input.classList.add("login-input-error");
+	input.setAttribute("aria-invalid", "true");
+}
+
+function clearLoginError(input) {
+	if (!input) return;
+	input.classList.remove("login-input-error");
+	input.removeAttribute("aria-invalid");
+}
+
+function showLoginStep(step) {
+	if (!loginStepEmail || !loginStepCode) return;
+	const verify = step === "code";
+	loginStepEmail.hidden = verify;
+	loginStepCode.hidden = !verify;
+	requestAnimationFrame(() => {
+		(verify ? loginCode : loginEmail)?.focus?.();
+	});
+}
+
+function renderLoginState(isSignedIn) {
+	if (loginFlow) loginFlow.hidden = isSignedIn;
+	if (profileSignedIn) profileSignedIn.hidden = !isSignedIn;
+	if (savedCardBlock) savedCardBlock.hidden = !isSignedIn;
+	if (profileEmail) profileEmail.textContent = pendingLoginEmail;
+	profileToggle?.setAttribute(
+		"aria-label",
+		isSignedIn ? "Account, signed in" : "Account login",
+	);
+}
+
+renderLoginState(false);
+
+loginContinue?.addEventListener("click", () => {
+	const email = loginEmail?.value.trim() || "";
+	clearLoginError(loginEmail);
+	if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+		setLoginError(loginEmail);
+		showToast("Enter a valid email for the demo login");
+		return;
+	}
+	pendingLoginEmail = email;
+	showLoginStep("code");
+	showToast("Fake verification code sent: 123456");
+});
+
+loginVerify?.addEventListener("click", () => {
+	const code = loginCode?.value.trim() || "";
+	clearLoginError(loginCode);
+	if (code !== "123456") {
+		setLoginError(loginCode);
+		showToast("Use demo code 123456");
+		return;
+	}
+	renderLoginState(true);
+	showToast("Signed in with fake two-step verification");
+});
+
+loginBack?.addEventListener("click", () => {
+	clearLoginError(loginCode);
+	if (loginCode) loginCode.value = "";
+	showLoginStep("email");
+});
+
+loginSignOut?.addEventListener("click", () => {
+	renderLoginState(false);
+	showLoginStep("email");
+	if (loginCode) loginCode.value = "";
+	showToast("Signed out of demo account");
+});
+
+loginEmail?.addEventListener("input", () => clearLoginError(loginEmail));
+loginCode?.addEventListener("input", () => clearLoginError(loginCode));
+
 /* Clicks inside panels must not bubble to document: after Remove, the target node is
    detached so closest('.nav-action-wrap') fails and the panel would wrongly close. */
 if (cartPanel) {
@@ -309,6 +430,8 @@ if (profilePanel) {
 document.querySelectorAll(".add-to-cart").forEach((btn) => {
 	btn.addEventListener("click", () => addToCartFromButton(btn));
 });
+
+initProductOptions();
 
 if (fakeCardUse) {
 	fakeCardUse.addEventListener("click", () => {
