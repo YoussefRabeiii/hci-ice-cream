@@ -267,7 +267,7 @@ html[data-theme="dark"] header .theme-switch-icon--sun {
 	opacity: 0.35;
 }
 html[data-theme="dark"] header .theme-switch-icon--moon {
-	color: #e2e8f0;
+	color: #ffffff;
 	opacity: 1;
 }
 html:not([data-theme="dark"]) header .theme-switch-icon--moon {
@@ -1350,7 +1350,7 @@ header .nav-menu-toggle:focus-visible {
 	color: var(--text-on-light);
 }
 html[data-theme="dark"] .features .box-container .one h3 {
-	color: #f1f5f9;
+	color: #ffffff;
 }
 .features .box-container .box p {
 	font-size: 1.5rem;
@@ -2604,7 +2604,7 @@ html[data-theme="dark"] {
 	--header-bg: #0f172a;
 }
 html[data-theme="dark"] body {
-	color: #e2e8f0;
+	color: #ffffff;
 }
 html[data-theme="dark"] section {
 	background-image:
@@ -2619,13 +2619,16 @@ html[data-theme="dark"] .home {
 }
 html[data-theme="dark"] .home span {
 	background-color: #1e293b;
-	color: #ecfdf5;
+	color: #ffffff;
 	border: 1px solid rgba(94, 234, 212, 0.35);
 	font-weight: 600;
 }
-html[data-theme="dark"] .home h1,
+html[data-theme="dark"] .home h1 {
+	color: #73d7d3;
+	text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
 html[data-theme="dark"] .home p {
-	color: #f8fafc;
+	color: #ffffff;
 	text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 }
 html[data-theme="dark"] .home .box .btn {
@@ -2640,28 +2643,28 @@ html[data-theme="dark"] .home .box .btn:hover {
 	border-color: rgba(6, 78, 59, 0.35);
 }
 html[data-theme="dark"] h1 {
-	color: #7dd3c7;
+	color: #73d7d3;
 }
 html[data-theme="dark"] h2.heading,
 html[data-theme="dark"] .features > h2 {
-	color: #7dd3c7;
+	color: #73d7d3;
 }
 html[data-theme="dark"] .about .row .content h2 {
-	color: #7dd3c7;
+	color: #73d7d3;
 }
 html[data-theme="dark"] .about .row .content p,
 html[data-theme="dark"] .about .box-container .box p {
-	color: #cbd5e1;
+	color: #ffffff;
 }
 html[data-theme="dark"] .about .box-container .box {
 	background-color: #1e293b;
 	border: 1px solid rgba(102, 195, 184, 0.22);
 }
 html[data-theme="dark"] .about .box-container .box h3 {
-	color: #7dd3c7;
+	color: #73d7d3;
 }
 html[data-theme="dark"] .menu .box-container .recipe > h3 {
-	color: #7dd3c7;
+	color: #73d7d3;
 }
 html[data-theme="dark"] .container {
 	background-image:
@@ -2702,7 +2705,7 @@ html[data-theme="dark"] .shop {
 		url("images/footer.jpg");
 }
 html[data-theme="dark"] .product-back {
-	color: #7dd3c7;
+	color: #73d7d3;
 }
 html[data-theme="dark"] .products-hero,
 html[data-theme="dark"] .product-detail,
@@ -2715,27 +2718,27 @@ html[data-theme="dark"] .products-copy h2,
 html[data-theme="dark"] .product-summary h1,
 html[data-theme="dark"] .product-summary h2,
 html[data-theme="dark"] .product-info-grid h3 {
-	color: #7dd3c7;
+	color: #73d7d3;
 }
 html[data-theme="dark"] .products-copy p,
 html[data-theme="dark"] .product-summary p,
 html[data-theme="dark"] .product-info-grid p {
-	color: #cbd5e1;
+	color: #ffffff;
 }
 html[data-theme="dark"] .product-highlights li {
 	background-color: #0f172a;
-	color: #e2e8f0;
+	color: #ffffff;
 }
 html[data-theme="dark"] .product-rating span,
 html[data-theme="dark"] .product-delivery span {
-	color: #94a3b8;
+	color: #ffffff;
 }
 html[data-theme="dark"] .product-option-label,
 html[data-theme="dark"] .product-delivery strong {
-	color: #f1f5f9;
+	color: #ffffff;
 }
 html[data-theme="dark"] .product-price-row span {
-	color: #5eead4;
+	color: #73d7d3;
 }
 html[data-theme="dark"] .product-thumbs img,
 html[data-theme="dark"] .product-option,
@@ -2743,12 +2746,12 @@ html[data-theme="dark"] .product-delivery,
 html[data-theme="dark"] .product-buy-now {
 	background-color: #0f172a;
 	border-color: rgba(102, 195, 184, 0.28);
-	color: #e2e8f0;
+	color: #ffffff;
 }
 html[data-theme="dark"] .product-option:hover:not(.is-selected) {
 	background-color: rgba(102, 195, 184, 0.18);
 	border-color: rgba(94, 234, 212, 0.45);
-	color: #f1f5f9;
+	color: #ffffff;
 }
 html[data-theme="dark"] .product-option.is-selected {
 	background: linear-gradient(135deg, #fa8ca6 0%, #d8557a 100%);
@@ -2764,20 +2767,20 @@ html[data-theme="dark"] .menu .box-container .recipe {
 	background-color: #1e293b;
 }
 html[data-theme="dark"] .menu .box-container .recipe .detail h3 {
-	color: #f1f5f9;
+	color: #ffffff;
 }
 html[data-theme="dark"] .menu .box-container .recipe .detail p {
-	color: #94a3b8;
+	color: #ffffff;
 }
 html[data-theme="dark"] .faq .box-container .detail h2 {
-	color: #f1f5f9;
+	color: #ffffff;
 }
 html[data-theme="dark"] .faq .box-container .detail span {
-	color: #e2e8f0;
+	color: #ffffff;
 }
 html[data-theme="dark"] .faq .box-container .detail i {
 	background-color: rgba(204, 251, 241, 0.2);
-	color: #5eead4;
+	color: #73d7d3;
 	border-color: rgba(94, 234, 212, 0.45);
 }
 html[data-theme="dark"] .faq .box-container .img-box .overlay {
@@ -2785,25 +2788,25 @@ html[data-theme="dark"] .faq .box-container .img-box .overlay {
 }
 html[data-theme="dark"] .accordion .contentBox .label {
 	background-color: rgba(102, 195, 184, 0.15);
-	color: #cbd5e1;
+	color: #ffffff;
 }
 html[data-theme="dark"] .accordion .contentBox .content {
 	background-color: #1e293b;
-	color: #cbd5e1;
+	color: #ffffff;
 }
 html[data-theme="dark"] .post .box-container .box .content span {
-	color: #cbd5e1;
+	color: #ffffff;
 }
 html[data-theme="dark"] kbd {
 	background: #334155;
 	border-color: #475569;
-	color: #e2e8f0;
+	color: #ffffff;
 }
 html[data-theme="dark"] .post .box-container .box .content h3 {
-	color: #e2e8f0;
+	color: #ffffff;
 }
 html[data-theme="dark"] .post .box-container .box .content p {
-	color: #cbd5e1;
+	color: #ffffff;
 }
 html[data-theme="dark"] .post .box-container .box .content .btn {
 	background-color: #0f766e;
@@ -2818,25 +2821,25 @@ html[data-theme="dark"] footer {
 	background-color: #0f172a;
 }
 html[data-theme="dark"] footer .content {
-	color: #94a3b8;
+	color: #ffffff;
 }
 html[data-theme="dark"] footer .content h3 {
-	color: #7dd3c7;
+	color: #73d7d3;
 }
 html[data-theme="dark"] footer .content a {
-	color: #cbd5e1;
+	color: #ffffff;
 }
 html[data-theme="dark"] footer .content p {
-	color: #cbd5e1;
+	color: #ffffff;
 }
 html[data-theme="dark"] footer .bottom {
 	border-top-color: rgba(102, 195, 184, 0.35);
 }
 html[data-theme="dark"] footer .bottom a {
-	color: #e2e8f0;
+	color: #ffffff;
 }
 html[data-theme="dark"] header .navbar ul li a {
-	color: #7dd3c7;
+	color: #73d7d3;
 }
 html[data-theme="dark"] header .nav-panel {
 	background: #1e293b;
@@ -2853,43 +2856,43 @@ html[data-theme="dark"] header .cart-line-thumb {
 	background: #0f172a;
 }
 html[data-theme="dark"] header .cart-line-title {
-	color: #f1f5f9;
+	color: #ffffff;
 }
 html[data-theme="dark"] header .cart-line-meta {
-	color: #cbd5e1;
+	color: #ffffff;
 }
 html[data-theme="dark"] header .qty-btn {
 	background: #0f172a;
-	color: #7dd3c7;
+	color: #73d7d3;
 	border-color: #66c3b8;
 }
 html[data-theme="dark"] header .qty-btn:hover {
 	background: #1e3d38;
 }
 html[data-theme="dark"] header .cart-empty {
-	color: #cbd5e1;
+	color: #ffffff;
 }
 html[data-theme="dark"] header .cart-footer {
 	border-top-color: rgba(148, 163, 184, 0.22);
 }
 html[data-theme="dark"] header .cart-total {
-	color: #f1f5f9;
+	color: #ffffff;
 }
 html[data-theme="dark"] header .profile-meta strong {
-	color: #f1f5f9;
+	color: #ffffff;
 }
 html[data-theme="dark"] header .profile-meta span {
-	color: #cbd5e1;
+	color: #ffffff;
 }
 html[data-theme="dark"] header .profile-hint {
-	color: #cbd5e1;
+	color: #ffffff;
 }
 /* Account / fake login: light-mode grays disappear on dark nav panel */
 html[data-theme="dark"] header .login-copy {
-	color: #e2e8f0;
+	color: #ffffff;
 }
 html[data-theme="dark"] header .login-field span {
-	color: #99f6e4;
+	color: #73d7d3;
 }
 html[data-theme="dark"] header .login-field input {
 	background: #0f172a;
@@ -2904,27 +2907,27 @@ html[data-theme="dark"] header .login-field input.login-input-error {
 	box-shadow: 0 0 0 3px rgba(250, 140, 166, 0.35);
 }
 html[data-theme="dark"] header .login-note {
-	color: #cbd5e1;
+	color: #ffffff;
 }
 html[data-theme="dark"] header .login-code-card {
 	background: linear-gradient(135deg, #0f172a 0%, #1e3a3a 55%, #1e293b 100%);
 	border-color: rgba(125, 211, 199, 0.45);
 }
 html[data-theme="dark"] header .login-code-card span {
-	color: #cbd5e1;
+	color: #ffffff;
 }
 html[data-theme="dark"] header .login-code-card strong {
-	color: #5eead4;
+	color: #73d7d3;
 }
 html[data-theme="dark"] header .login-link {
-	color: #7dd3c7;
+	color: #73d7d3;
 }
 html[data-theme="dark"] header .login-link:hover {
 	color: #fbcfe8;
 }
 html[data-theme="dark"] .btn {
 	background-color: #1e3d38;
-	color: #e2e8f0;
+	color: #ffffff;
 }
 html[data-theme="dark"] .btn:hover {
 	background-color: #fa8ca6;
@@ -2949,10 +2952,10 @@ html[data-theme="dark"] .checkout-dialog .checkout-head {
 	border-bottom-color: rgba(148, 163, 184, 0.28);
 }
 html[data-theme="dark"] .checkout-dialog .checkout-head h2 {
-	color: #99f6e4;
+	color: #73d7d3;
 }
 html[data-theme="dark"] .checkout-dialog .panel-close {
-	color: #99f6e4;
+	color: #73d7d3;
 }
 html[data-theme="dark"] .checkout-dialog .panel-close:hover {
 	color: #fda4af;
@@ -2961,13 +2964,13 @@ html[data-theme="dark"] .checkout-body {
 	background: #1e293b;
 }
 html[data-theme="dark"] .checkout-intro {
-	color: #e2e8f0;
+	color: #ffffff;
 }
 html[data-theme="dark"] .checkout-field {
-	color: #f1f5f9;
+	color: #ffffff;
 }
 html[data-theme="dark"] .checkout-field span {
-	color: #99f6e4;
+	color: #73d7d3;
 }
 html[data-theme="dark"] .checkout-field input {
 	background: #0f172a;
@@ -2975,27 +2978,27 @@ html[data-theme="dark"] .checkout-field input {
 	color: #f8fafc;
 }
 html[data-theme="dark"] .checkout-field input:focus {
-	outline-color: #5eead4;
-	border-color: #5eead4;
+	outline-color: #73d7d3;
+	border-color: #73d7d3;
 }
 html[data-theme="dark"] .checkout-field input::placeholder {
 	color: #94a3b8;
 }
 html[data-theme="dark"] .checkout-success-title {
-	color: #5eead4;
+	color: #73d7d3;
 }
 html[data-theme="dark"] .checkout-radio {
-	color: #f1f5f9;
+	color: #ffffff;
 }
 html[data-theme="dark"] .checkout-progress {
 	border-bottom-color: rgba(148, 163, 184, 0.22);
 }
 html[data-theme="dark"] .checkout-progress-step {
-	color: #94a3b8;
+	color: #ffffff;
 }
 html[data-theme="dark"] .checkout-progress-step .checkout-step-num {
 	background: #334155;
-	color: #e2e8f0;
+	color: #ffffff;
 }
 html[data-theme="dark"] .checkout-progress-step.is-active .checkout-step-num {
 	background: #14b8a6;
@@ -3009,7 +3012,7 @@ html[data-theme="dark"] .checkout-progress-step.is-active {
 	color: #f8fafc;
 }
 html[data-theme="dark"] .checkout-progress-step:not(.is-active) .checkout-step-label {
-	color: #cbd5e1;
+	color: #ffffff;
 }
 html[data-theme="dark"] .checkout-review-block {
 	background: #0f172a;
@@ -3019,7 +3022,7 @@ html[data-theme="dark"] .checkout-review-block {
 	line-height: 1.55;
 }
 html[data-theme="dark"] .checkout-review-block strong {
-	color: #99f6e4;
+	color: #73d7d3;
 	font-size: 1.45rem;
 }
 html[data-theme="dark"] .checkout-review-lines {
@@ -3030,7 +3033,7 @@ html[data-theme="dark"] .checkout-review-line {
 	font-size: 1.7rem;
 }
 html[data-theme="dark"] .checkout-review-line span:last-child {
-	color: #e2e8f0;
+	color: #ffffff;
 	font-weight: 700;
 }
 html[data-theme="dark"] .checkout-review-total {
@@ -3038,13 +3041,13 @@ html[data-theme="dark"] .checkout-review-total {
 	font-size: 2.2rem;
 }
 html[data-theme="dark"] .checkout-review-total strong {
-	color: #5eead4;
+	color: #73d7d3;
 }
 html[data-theme="dark"] .checkout-order-id {
-	color: #e2e8f0;
+	color: #ffffff;
 }
 html[data-theme="dark"] .checkout-success-text {
-	color: #cbd5e1;
+	color: #ffffff;
 }
 html[data-theme="dark"] .checkout-modal .checkout-foot .btn:not(.btn-checkout-secondary),
 html[data-theme="dark"] .checkout-modal .checkout-pane-success .btn {
