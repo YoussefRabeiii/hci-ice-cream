@@ -19,6 +19,8 @@
 	--hero-badge-bg: #ecfdf5;
 	--hero-badge-text: #064e3b;
 	--font-site: "Nunito", "Segoe UI", Arial, sans-serif;
+	/* Space below fixed header so first content (e.g. product back link) is not covered */
+	--site-header-clearance: 10rem;
 }
 
 .skip-link {
@@ -1441,6 +1443,9 @@ html[data-theme="dark"] .features .box-container .one h3 {
 	background-image: url("images/bg.avif");
 	background-position: center;
 }
+.product-page {
+	padding-top: max(4%, var(--site-header-clearance));
+}
 .products-hero {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) minmax(28rem, 44rem);
@@ -2215,6 +2220,9 @@ footer .bottom a {
 	section {
 		padding: 6rem 2rem;
 	}
+	.product-page {
+		padding-top: max(7rem, 12rem);
+	}
 	header {
 		padding: 1rem 1.4rem;
 		gap: 0.6rem;
@@ -2549,6 +2557,9 @@ footer .bottom a {
 	}
 	.home {
 		padding-top: 10.5rem;
+	}
+	.product-page {
+		padding-top: max(6rem, 10.5rem);
 	}
 	.home::after {
 		height: 72px;
