@@ -70,6 +70,15 @@
 						<span class="theme-switch-thumb"></span>
 					</span>
 				</button>
+				<button
+					type="button"
+					class="nav-icon-btn sound-toggle"
+					id="soundToggle"
+					aria-pressed="false"
+					aria-label="Mute sound feedback"
+					title="Sound on">
+					<i class="bx bx-volume-full" id="soundToggleIcon" aria-hidden="true"></i>
+				</button>
 				<div class="nav-action-wrap cart-wrap">
 					<button
 						type="button"
@@ -1130,6 +1139,22 @@
 						</div>
 						<div class="checkout-pane" id="checkoutPane3" data-pane="3" hidden>
 							<p class="checkout-intro">Confirm your order</p>
+							<div
+								class="checkout-pending-banner"
+								id="coOrderPendingBanner"
+								hidden>
+								<p class="checkout-pending-lead">
+									Your order will finalize in
+									<strong id="coOrderPendingSecs">5</strong>
+									seconds. Use <strong>Undo order</strong> if you changed your mind.
+								</p>
+								<button
+									type="button"
+									class="btn btn-checkout-secondary"
+									id="checkoutUndoOrder">
+									Undo order
+								</button>
+							</div>
 							<div class="checkout-review-block" id="coReviewShip"></div>
 							<div class="checkout-review-block" id="coReviewPay"></div>
 							<div class="checkout-review-lines" id="coReviewLines"></div>
@@ -1152,9 +1177,6 @@
 							<p class="checkout-order-id">
 								Order <strong id="coOrderId">—</strong>
 							</p>
-							<button type="button" class="btn" id="checkoutDoneSuccess">
-								Close
-							</button>
 						</div>
 					</div>
 					<div class="checkout-foot" id="checkoutFoot">

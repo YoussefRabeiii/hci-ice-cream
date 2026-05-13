@@ -41,7 +41,10 @@ window.onscroll = function () {
 };
 
 const THEME_KEY = "topglanceTheme";
+const SOUND_KEY = "topglanceSoundMuted";
 const themeToggle = document.getElementById("themeToggle");
+const soundToggle = document.getElementById("soundToggle");
+const soundToggleIcon = document.getElementById("soundToggleIcon");
 
 function getPreferredTheme() {
 	const stored = localStorage.getItem(THEME_KEY);
@@ -65,13 +68,37 @@ function applyTheme(theme, persist) {
 	}
 }
 
+function isSoundMuted() {
+	return localStorage.getItem(SOUND_KEY) === "true";
+}
+
+function applySoundMuted(muted, persist) {
+	if (persist) localStorage.setItem(SOUND_KEY, muted ? "true" : "false");
+	if (!soundToggle || !soundToggleIcon) return;
+	soundToggle.setAttribute("aria-pressed", muted ? "true" : "false");
+	soundToggle.setAttribute(
+		"aria-label",
+		muted ? "Unmute sound feedback" : "Mute sound feedback",
+	);
+	soundToggle.title = muted ? "Sound off" : "Sound on";
+	soundToggle.classList.toggle("is-muted", muted);
+	soundToggleIcon.className = muted
+		? "bx bx-volume-mute"
+		: "bx bx-volume-full";
+}
+
 applyTheme(getPreferredTheme(), false);
+applySoundMuted(isSoundMuted(), false);
 themeToggle?.addEventListener("click", () => {
 	const next =
 		document.documentElement.getAttribute("data-theme") === "dark"
 			? "light"
 			: "dark";
 	applyTheme(next, true);
+});
+soundToggle?.addEventListener("click", () => {
+	const nextMuted = !isSoundMuted();
+	applySoundMuted(nextMuted, true);
 });
 function initAccordion() {
 	document.querySelectorAll(".accordion .contentBox").forEach((box) => {
@@ -128,6 +155,76 @@ const toastEl = document.getElementById("toast");
 const checkoutAnnounceEl = document.getElementById("checkoutAnnounce");
 let toastTimer;
 let pendingLoginEmail = "demo@topglance.ice";
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+let audioCtx = null;
+
+function getAudioContext() {
+	if (audioCtx) return audioCtx;
+	const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+	if (!AudioContextClass) return null;
+	audioCtx = new AudioContextClass();
+	return audioCtx;
+}
+
+function pulseElement(el, className) {
+	if (!el) return;
+	el.classList.remove(className);
+	void el.offsetWidth;
+	el.classList.add(className);
+}
+
+function playUiSound(kind) {
+	if (isSoundMuted()) return;
+	const ctx = getAudioContext();
+	if (!ctx) return;
+	if (ctx.state === "suspended") {
+		ctx.resume().catch(() => {});
+	}
+	const now = ctx.currentTime + 0.01;
+	const master = ctx.createGain();
+	master.connect(ctx.destination);
+
+	const tone = (frequency, duration, volume, type, offset = 0) => {
+		const osc = ctx.createOscillator();
+		const gain = ctx.createGain();
+		osc.type = type;
+		osc.frequency.setValueAtTime(frequency, now + offset);
+		gain.gain.setValueAtTime(0.0001, now + offset);
+		gain.gain.exponentialRampToValueAtTime(volume, now + offset + 0.02);
+		gain.gain.exponentialRampToValueAtTime(0.0001, now + offset + duration);
+		osc.connect(gain);
+		gain.connect(master);
+		osc.start(now + offset);
+		osc.stop(now + offset + duration + 0.03);
+	};
+
+	switch (kind) {
+		case "add":
+			master.gain.value = 0.045;
+			tone(680, 0.09, 1, "triangle");
+			tone(880, 0.14, 0.85, "sine", 0.05);
+			break;
+		case "remove":
+			master.gain.value = 0.04;
+			tone(520, 0.1, 1, "triangle");
+			tone(360, 0.16, 0.7, "sine", 0.04);
+			break;
+		case "step":
+			master.gain.value = 0.035;
+			tone(740, 0.08, 1, "triangle");
+			break;
+		case "toggle":
+			master.gain.value = 0.028;
+			tone(560, 0.07, 1, "sine");
+			break;
+		case "success":
+			master.gain.value = 0.05;
+			tone(660, 0.11, 1, "triangle");
+			tone(880, 0.13, 0.9, "triangle", 0.08);
+			tone(1175, 0.2, 0.72, "sine", 0.18);
+			break;
+	}
+}
 
 function loadCart() {
 	try {
@@ -162,6 +259,8 @@ function addToCartFromButton(btn) {
 	if (i >= 0) cart[i].qty += 1;
 	else cart.push({ id, name, price, image, qty: 1 });
 	saveCart(cart);
+	playUiSound("add");
+	pulseElement(cartBadge, "is-bumping");
 	showToast("Added to cart: " + name);
 }
 
@@ -192,6 +291,7 @@ function initProductOptions() {
 					if (baseName) btn.setAttribute("data-name", baseName + " - " + size);
 					if (baseId) btn.setAttribute("data-id", baseId + "-" + size.toLowerCase().replace(/\s+/g, "-"));
 				});
+				playUiSound("toggle");
 			});
 		});
 	});
@@ -201,9 +301,13 @@ function setLineQty(id, qty) {
 	const cart = loadCart();
 	const i = cart.findIndex((x) => x.id === id);
 	if (i < 0) return;
+	const nextQty = qty < 1 ? 0 : qty;
+	const prevQty = cart[i].qty;
 	if (qty < 1) cart.splice(i, 1);
 	else cart[i].qty = qty;
 	saveCart(cart);
+	playUiSound(nextQty >= prevQty ? "add" : "remove");
+	pulseElement(cartBadge, "is-bumping");
 }
 
 function renderCart() {
@@ -287,9 +391,11 @@ function showToast(msg) {
 	toastEl.textContent = msg;
 	toastEl.hidden = false;
 	clearTimeout(toastTimer);
+	if (!prefersReducedMotion.matches) pulseElement(toastEl, "is-popping");
 	requestAnimationFrame(() => toastEl.classList.add("is-visible"));
 	toastTimer = setTimeout(() => {
 		toastEl.classList.remove("is-visible");
+		toastEl.classList.remove("is-popping");
 		setTimeout(() => {
 			toastEl.hidden = true;
 		}, 400);
@@ -464,6 +570,13 @@ const coOrderId = document.getElementById("coOrderId");
 const coNewCardFields = document.getElementById("coNewCardFields");
 const coPaySaved = document.getElementById("coPaySaved");
 const coPayNew = document.getElementById("coPayNew");
+const coOrderPendingBanner = document.getElementById("coOrderPendingBanner");
+const coOrderPendingSecs = document.getElementById("coOrderPendingSecs");
+const checkoutUndoOrder = document.getElementById("checkoutUndoOrder");
+
+const ORDER_CONFIRM_SECONDS = 5;
+let orderConfirmInterval = null;
+let orderConfirmPending = false;
 
 let checkoutPreviousFocus = null;
 
@@ -735,7 +848,62 @@ function setProgressIndicators(step) {
 	});
 }
 
+function clearOrderConfirmPending() {
+	if (orderConfirmInterval !== null) {
+		clearInterval(orderConfirmInterval);
+		orderConfirmInterval = null;
+	}
+	orderConfirmPending = false;
+	if (coOrderPendingBanner) coOrderPendingBanner.hidden = true;
+	if (checkoutPrimary) {
+		checkoutPrimary.disabled = false;
+		checkoutPrimary.removeAttribute("aria-busy");
+		if (checkoutStep === 3) checkoutPrimary.textContent = "Confirm order";
+	}
+}
+
+function beginOrderConfirmCountdown() {
+	clearOrderConfirmPending();
+	orderConfirmPending = true;
+	let sec = ORDER_CONFIRM_SECONDS;
+	if (coOrderPendingBanner) coOrderPendingBanner.hidden = false;
+	if (coOrderPendingSecs) coOrderPendingSecs.textContent = String(sec);
+	if (checkoutPrimary) {
+		checkoutPrimary.disabled = true;
+		checkoutPrimary.setAttribute("aria-busy", "true");
+		checkoutPrimary.textContent = "Finalizing in " + sec + "s…";
+	}
+	announceCheckout(
+		"Order will finalize in " +
+			sec +
+			" seconds. Press Undo order to cancel.",
+	);
+	requestAnimationFrame(() => checkoutUndoOrder?.focus());
+	orderConfirmInterval = setInterval(() => {
+		sec -= 1;
+		if (sec <= 0) {
+			if (orderConfirmInterval !== null) {
+				clearInterval(orderConfirmInterval);
+				orderConfirmInterval = null;
+			}
+			orderConfirmPending = false;
+			if (coOrderPendingBanner) coOrderPendingBanner.hidden = true;
+			if (checkoutPrimary) {
+				checkoutPrimary.disabled = false;
+				checkoutPrimary.removeAttribute("aria-busy");
+			}
+			placeDemoOrder();
+			return;
+		}
+		if (coOrderPendingSecs) coOrderPendingSecs.textContent = String(sec);
+		if (checkoutPrimary)
+			checkoutPrimary.textContent = "Finalizing in " + sec + "s…";
+	}, 1000);
+}
+
 function setCheckoutStep(step) {
+	clearOrderConfirmPending();
+	const changed = checkoutStep !== step;
 	checkoutStep = step;
 	clearCheckoutErrors();
 	[checkoutPane1, checkoutPane2, checkoutPane3, checkoutPane4].forEach(
@@ -745,14 +913,16 @@ function setCheckoutStep(step) {
 	);
 	if (checkoutProgress) checkoutProgress.hidden = step === 4;
 	setProgressIndicators(step);
-	if (checkoutBack) checkoutBack.hidden = step === 1 || step === 4;
+	if (checkoutBack) checkoutBack.hidden = step === 1 || step >= 3;
 	if (checkoutPrimary) {
-		checkoutPrimary.hidden = step === 4;
+		checkoutPrimary.hidden = false;
 		if (step === 1) checkoutPrimary.textContent = "Continue to payment";
 		else if (step === 2) checkoutPrimary.textContent = "Continue to review";
-		else if (step === 3) checkoutPrimary.textContent = "Place order";
+		else if (step === 3) checkoutPrimary.textContent = "Confirm order";
+		else if (step === 4) checkoutPrimary.textContent = "Close";
 	}
-	if (checkoutFoot) checkoutFoot.hidden = step === 4;
+	if (checkoutFoot) checkoutFoot.hidden = false;
+	if (changed && step <= 3) playUiSound("step");
 }
 
 function openCheckout() {
@@ -769,7 +939,6 @@ function openCheckout() {
 		checkoutPreviousFocus = active;
 	}
 	closeNavPanels({ restoreFocus: false });
-	checkoutStep = 1;
 	setCheckoutStep(1);
 	checkoutModal.hidden = false;
 	document.body.style.overflow = "hidden";
@@ -789,7 +958,6 @@ function closeCheckout() {
 	if (!checkoutModal) return;
 	checkoutModal.hidden = true;
 	document.body.style.overflow = "";
-	checkoutStep = 1;
 	setCheckoutStep(1);
 	clearCheckoutErrors();
 	const ref = checkoutPreviousFocus;
@@ -810,8 +978,10 @@ function placeDemoOrder() {
 	if (coOrderId) coOrderId.textContent = id;
 	saveCart([]);
 	setCheckoutStep(4);
+	playUiSound("success");
+	pulseElement(checkoutPane4, "is-celebrating");
 	showToast("Order placed (demo)");
-	requestAnimationFrame(() => checkoutDoneSuccess?.focus());
+	requestAnimationFrame(() => checkoutPrimary?.focus());
 }
 
 if (coPaySaved) coPaySaved.addEventListener("change", syncPaymentFields);
@@ -821,6 +991,7 @@ if (checkoutBackdrop) checkoutBackdrop.addEventListener("click", closeCheckout);
 if (checkoutClose) checkoutClose.addEventListener("click", closeCheckout);
 if (checkoutBack) {
 	checkoutBack.addEventListener("click", () => {
+		if (orderConfirmPending) return;
 		if (checkoutStep === 2) setCheckoutStep(1);
 		else if (checkoutStep === 3) setCheckoutStep(2);
 	});
@@ -836,18 +1007,26 @@ if (checkoutPrimary) {
 			populateReview();
 			setCheckoutStep(3);
 		} else if (checkoutStep === 3) {
-			placeDemoOrder();
+			if (orderConfirmPending) return;
+			beginOrderConfirmCountdown();
+		} else if (checkoutStep === 4) {
+			closeCheckout();
 		}
 	});
 }
 
 const checkoutBtn = document.getElementById("cartCheckoutBtn");
-const checkoutDoneSuccess = document.getElementById("checkoutDoneSuccess");
 if (checkoutBtn) {
 	checkoutBtn.addEventListener("click", () => openCheckout());
 }
-if (checkoutDoneSuccess) {
-	checkoutDoneSuccess.addEventListener("click", () => closeCheckout());
+if (checkoutUndoOrder) {
+	checkoutUndoOrder.addEventListener("click", () => {
+		if (!orderConfirmPending) return;
+		clearOrderConfirmPending();
+		announceCheckout("Order cancelled. You can edit details or confirm again.");
+		showToast("Order cancelled");
+		requestAnimationFrame(() => checkoutPrimary?.focus());
+	});
 }
 
 document.addEventListener("click", (e) => {
